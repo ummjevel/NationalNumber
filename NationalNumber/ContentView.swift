@@ -34,7 +34,11 @@ struct ContentView: View {
                 Spacer()
                 switch viewRouter.currentPage {
                 case .firstaid:
-                    Text("firstaid")
+                    VStack {
+                        Text("location")
+                        FirstAid()
+                    }
+                    
                 case .location:
                     Text("location")
                 case .setting:
@@ -68,8 +72,8 @@ struct ContentView: View {
                             Section(header: Text("전달내용"), content: {
                                 name.isEmpty ? Text("이름: 입력없음, \n성별: \(genderType[gender]), \n생년월일 : \(birth, formatter: Self.dateFormatter)") : Text("이름: \(name), \n성별: \(genderType[gender]), \n생년월일 : \(birth, formatter: Self.dateFormatter)")
                             })
-                        }.navigationBarTitle(Text("설정"))
-                    }
+                        }.navigationTitle("설정")
+                    }.navigationViewStyle(StackNavigationViewStyle())
                 }
                 Spacer()
                 HStack {

@@ -15,6 +15,8 @@
 		1E7DA60226141D42005F7730 /* NationalNumberUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA60126141D42005F7730 /* NationalNumberUITests.swift */; };
 		1E7DA613261432A5005F7730 /* TabBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA612261432A5005F7730 /* TabBarIcon.swift */; };
 		1E7DA61826143650005F7730 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA61726143650005F7730 /* ViewRouter.swift */; };
+		1E7DA61D26180743005F7730 /* FirstAid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA61C26180743005F7730 /* FirstAid.swift */; };
+		1E7DA62226180D29005F7730 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA62126180D29005F7730 /* WebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		1E7DA60326141D42005F7730 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E7DA612261432A5005F7730 /* TabBarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarIcon.swift; sourceTree = "<group>"; };
 		1E7DA61726143650005F7730 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
+		1E7DA61C26180743005F7730 /* FirstAid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstAid.swift; sourceTree = "<group>"; };
+		1E7DA62126180D29005F7730 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,8 @@
 				1E7DA5EA26141D42005F7730 /* Preview Content */,
 				1E7DA612261432A5005F7730 /* TabBarIcon.swift */,
 				1E7DA61726143650005F7730 /* ViewRouter.swift */,
+				1E7DA61C26180743005F7730 /* FirstAid.swift */,
+				1E7DA62126180D29005F7730 /* WebView.swift */,
 			);
 			path = NationalNumber;
 			sourceTree = "<group>";
@@ -268,6 +274,8 @@
 				1E7DA613261432A5005F7730 /* TabBarIcon.swift in Sources */,
 				1E7DA5E726141D42005F7730 /* ContentView.swift in Sources */,
 				1E7DA5E526141D42005F7730 /* NationalNumberApp.swift in Sources */,
+				1E7DA62226180D29005F7730 /* WebView.swift in Sources */,
+				1E7DA61D26180743005F7730 /* FirstAid.swift in Sources */,
 				1E7DA61826143650005F7730 /* ViewRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

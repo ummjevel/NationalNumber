@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 enum Page {
     case firstaid
@@ -18,3 +19,7 @@ class ViewRouter: ObservableObject {
     @Published var currentPage: Page = .setting
 }
 
+class WebViewModel: ObservableObject {
+    var foo = PassthroughSubject<Bool, Never>()
+    var bar = PassthroughSubject<Bool, Never>()
+}
