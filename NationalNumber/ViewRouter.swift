@@ -16,7 +16,7 @@ enum Page {
 }
 
 class ViewRouter: ObservableObject {
-    @Published var currentPage: Page = .setting
+    @Published var currentPage: Page = .location
 }
 
 class WebViewModel: ObservableObject {

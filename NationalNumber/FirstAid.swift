@@ -15,12 +15,7 @@ struct FirstAid: View {
     
     var body: some View {
         VStack {
-            WebView(url:
-                        // "https://velog.io/"
-             "http://m.safekorea.go.kr/idsiSFK/neo/main_m/lit/hiking.html"
-            // "https://www.safekorea.go.kr/idsiSFK/neo/main/main.html"
-                // "https://www.forest.go.kr/kfsweb/kfi/kfs/cms/cmsView.do?mn=NKFS_02_02_03_01_01&cmsId=FC_001068"
-                    // "https://www.safekorea.go.kr/idsiSFK/neo/sfk/cs/contents/prevent/SDIJK14029.html?cd1=29&cd2=999&pagecd=SDIJK140.29&menuSeq=128"
+            WebView(url: "http://m.safekorea.go.kr/idsiSFK/neo/main_m/lit/hiking.html"
                     , viewModel: viewModel)
             /*            HStack {
                 Text(bar ? "Before" : "After")

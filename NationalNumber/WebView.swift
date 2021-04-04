@@ -12,7 +12,7 @@ import Combine
 import WebKit
 
 struct WebView: UIViewRepresentable {
-
+    
     var url: String
     @ObservedObject var viewModel: WebViewModel
     
@@ -33,6 +33,7 @@ struct WebView: UIViewRepresentable {
         webView.navigationDelegate = context.coordinator
         webView.allowsBackForwardNavigationGestures = true
         webView.scrollView.isScrollEnabled = true
+        webView.addSubview(context.coordinator.indicator)
         
         if let url = URL(string: url) {
             webView.load(URLRequest(url: url))
@@ -46,6 +47,9 @@ struct WebView: UIViewRepresentable {
     }
     
     class Coordinator: NSObject, WKNavigationDelegate {
+        
+        let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+        
         var parent: WebView
         var foo: AnyCancellable? = nil
         
@@ -79,6 +83,9 @@ struct WebView: UIViewRepresentable {
         
         func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
             print("기본 프레임에서 탐색 시작")
+            
+            self.indicator.center = webView.center
+            self.indicator.startAnimating()
         }
         
         func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
@@ -87,10 +94,12 @@ struct WebView: UIViewRepresentable {
         
         func webView(_ webview: WKWebView, didFinish: WKNavigation!) {
             print("탐색 완료")
+            self.indicator.stopAnimating()
         }
         
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             print("탐색 중 오류 발생")
+            self.indicator.stopAnimating()
         }
     }
 }
