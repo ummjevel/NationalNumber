@@ -36,7 +36,7 @@ struct ContentView: View {
                 case .firstaid: 
                     FirstAid()
                 case .location:
-                    Location()
+                    Location(view_height: geometry.size.height)
                 case .setting:
                     NavigationView {
                         Form {

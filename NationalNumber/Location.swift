@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct Location: View {
+    
+    @State var view_height: CGFloat
+    
     var body: some View {
         GeometryReader { geometry in
+            
             ZStack {
                 // HStack {
-                    GoogleMapView()
+                // view_height = geometry.size.heightg
+                GoogleMapView(view_height: $view_height)
+                   /* .onAppear() {
+                        self.view_height = geometry.size.height
+                    }*/
                 // }.frame(width: geometry.size.width, height: geometry.size.height, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 VStack {
                     Rectangle()
@@ -28,8 +36,10 @@ struct Location: View {
     }
 }
 
+/*
 struct Location_Previews: PreviewProvider {
     static var previews: some View {
         Location()
     }
 }
+*/

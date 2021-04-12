@@ -9,7 +9,7 @@ import Foundation
 import GoogleMaps
 
 @objc
-class GMSMapViewDelegateWrapper: NSObject, GMSMapViewDelegate {
+class GMSMapViewDelegateWrapper: NSObject, GMSMapViewDelegate, CLLocationManagerDelegate {
         
     var shouldHandleTap: Bool = true
     
@@ -18,11 +18,25 @@ class GMSMapViewDelegateWrapper: NSObject, GMSMapViewDelegate {
     }
     
     func didTapMyLocationButton(for mapView: GMSMapView) -> Bool {
+        print("did tap my location button")
         return shouldHandleTap
     }
     
     func mapView(_ mapView: GMSMapView, didTapMyLocation location: CLLocationCoordinate2D) {
-        
+        print("didtapmylocation mapview")
+    }
+    
+    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        print("change cameraposition")
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        print("mapview didtap marker")
+        return shouldHandleTap
+    }
+    
+    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+        print("mapview idleat")
     }
     
 }

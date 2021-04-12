@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E1FB05826186E670076B9F2 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1FB05726186E670076B9F2 /* Location.swift */; };
+		1E6E7F49261A3D82002C13C9 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6E7F48261A3D82002C13C9 /* CardView.swift */; };
 		1E7DA5E526141D42005F7730 /* NationalNumberApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA5E426141D42005F7730 /* NationalNumberApp.swift */; };
 		1E7DA5E726141D42005F7730 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA5E626141D42005F7730 /* ContentView.swift */; };
 		1E7DA5E926141D42005F7730 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E7DA5E826141D42005F7730 /* Assets.xcassets */; };
@@ -17,6 +19,7 @@
 		1E7DA61826143650005F7730 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA61726143650005F7730 /* ViewRouter.swift */; };
 		1E7DA61D26180743005F7730 /* FirstAid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA61C26180743005F7730 /* FirstAid.swift */; };
 		1E7DA62226180D29005F7730 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA62126180D29005F7730 /* WebView.swift */; };
+		1EB43B91261A1AAF0002A0CF /* GoogleMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB43B90261A1AAF0002A0CF /* GoogleMapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +40,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E0E34E038D57FD514998D42 /* Pods-NationalNumberTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NationalNumberTests.release.xcconfig"; path = "Target Support Files/Pods-NationalNumberTests/Pods-NationalNumberTests.release.xcconfig"; sourceTree = "<group>"; };
+		1E1FB05726186E670076B9F2 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		1E6E7F48261A3D82002C13C9 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		1E7DA5E126141D42005F7730 /* NationalNumber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NationalNumber.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E7DA5E426141D42005F7730 /* NationalNumberApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NationalNumberApp.swift; sourceTree = "<group>"; };
 		1E7DA5E626141D42005F7730 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +59,12 @@
 		1E7DA61726143650005F7730 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
 		1E7DA61C26180743005F7730 /* FirstAid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstAid.swift; sourceTree = "<group>"; };
 		1E7DA62126180D29005F7730 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		1EB43B90261A1AAF0002A0CF /* GoogleMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapView.swift; sourceTree = "<group>"; };
+		3F7145B89A0A37AF7C7864F2 /* Pods-NationalNumber.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NationalNumber.debug.xcconfig"; path = "Target Support Files/Pods-NationalNumber/Pods-NationalNumber.debug.xcconfig"; sourceTree = "<group>"; };
+		70AB0E531D7967F114A5C61C /* Pods-NationalNumberTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NationalNumberTests.debug.xcconfig"; path = "Target Support Files/Pods-NationalNumberTests/Pods-NationalNumberTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7EEA6C421066458B3B030B38 /* Pods-NationalNumber-NationalNumberUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NationalNumber-NationalNumberUITests.release.xcconfig"; path = "Target Support Files/Pods-NationalNumber-NationalNumberUITests/Pods-NationalNumber-NationalNumberUITests.release.xcconfig"; sourceTree = "<group>"; };
+		8266EB27C6272234D63DBE5F /* Pods-NationalNumber.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NationalNumber.release.xcconfig"; path = "Target Support Files/Pods-NationalNumber/Pods-NationalNumber.release.xcconfig"; sourceTree = "<group>"; };
+		9316515E53352C2F1294F070 /* Pods-NationalNumber-NationalNumberUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NationalNumber-NationalNumberUITests.debug.xcconfig"; path = "Target Support Files/Pods-NationalNumber-NationalNumberUITests/Pods-NationalNumber-NationalNumberUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +99,8 @@
 				1E7DA5F526141D42005F7730 /* NationalNumberTests */,
 				1E7DA60026141D42005F7730 /* NationalNumberUITests */,
 				1E7DA5E226141D42005F7730 /* Products */,
+				1F817703B7B4DA59BF83BAB6 /* Frameworks */,
+				CAC86864B68546BFFC17228E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,6 +126,9 @@
 				1E7DA61726143650005F7730 /* ViewRouter.swift */,
 				1E7DA61C26180743005F7730 /* FirstAid.swift */,
 				1E7DA62126180D29005F7730 /* WebView.swift */,
+				1E1FB05726186E670076B9F2 /* Location.swift */,
+				1EB43B90261A1AAF0002A0CF /* GoogleMapView.swift */,
+				1E6E7F48261A3D82002C13C9 /* CardView.swift */,
 			);
 			path = NationalNumber;
 			sourceTree = "<group>";
@@ -142,6 +159,26 @@
 			path = NationalNumberUITests;
 			sourceTree = "<group>";
 		};
+		1F817703B7B4DA59BF83BAB6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CAC86864B68546BFFC17228E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3F7145B89A0A37AF7C7864F2 /* Pods-NationalNumber.debug.xcconfig */,
+				8266EB27C6272234D63DBE5F /* Pods-NationalNumber.release.xcconfig */,
+				9316515E53352C2F1294F070 /* Pods-NationalNumber-NationalNumberUITests.debug.xcconfig */,
+				7EEA6C421066458B3B030B38 /* Pods-NationalNumber-NationalNumberUITests.release.xcconfig */,
+				70AB0E531D7967F114A5C61C /* Pods-NationalNumberTests.debug.xcconfig */,
+				1E0E34E038D57FD514998D42 /* Pods-NationalNumberTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -149,9 +186,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1E7DA60626141D42005F7730 /* Build configuration list for PBXNativeTarget "NationalNumber" */;
 			buildPhases = (
+				1EC7D93102AED7AF994773CC /* [CP] Check Pods Manifest.lock */,
 				1E7DA5DD26141D42005F7730 /* Sources */,
 				1E7DA5DE26141D42005F7730 /* Frameworks */,
 				1E7DA5DF26141D42005F7730 /* Resources */,
+				B98360450EE15764744D06C5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -166,6 +205,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1E7DA60926141D42005F7730 /* Build configuration list for PBXNativeTarget "NationalNumberTests" */;
 			buildPhases = (
+				088024F9BE6D42E960F1EE5F /* [CP] Check Pods Manifest.lock */,
 				1E7DA5EE26141D42005F7730 /* Sources */,
 				1E7DA5EF26141D42005F7730 /* Frameworks */,
 				1E7DA5F026141D42005F7730 /* Resources */,
@@ -184,9 +224,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1E7DA60C26141D42005F7730 /* Build configuration list for PBXNativeTarget "NationalNumberUITests" */;
 			buildPhases = (
+				B1E624643C5F460962C45B9C /* [CP] Check Pods Manifest.lock */,
 				1E7DA5F926141D42005F7730 /* Sources */,
 				1E7DA5FA26141D42005F7730 /* Frameworks */,
 				1E7DA5FB26141D42005F7730 /* Resources */,
+				66DA022834B55387F6A05C23 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -266,6 +308,109 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		088024F9BE6D42E960F1EE5F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NationalNumberTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1EC7D93102AED7AF994773CC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NationalNumber-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		66DA022834B55387F6A05C23 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NationalNumber-NationalNumberUITests/Pods-NationalNumber-NationalNumberUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NationalNumber-NationalNumberUITests/Pods-NationalNumber-NationalNumberUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NationalNumber-NationalNumberUITests/Pods-NationalNumber-NationalNumberUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B1E624643C5F460962C45B9C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NationalNumber-NationalNumberUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B98360450EE15764744D06C5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NationalNumber/Pods-NationalNumber-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NationalNumber/Pods-NationalNumber-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NationalNumber/Pods-NationalNumber-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1E7DA5DD26141D42005F7730 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -275,8 +420,11 @@
 				1E7DA5E726141D42005F7730 /* ContentView.swift in Sources */,
 				1E7DA5E526141D42005F7730 /* NationalNumberApp.swift in Sources */,
 				1E7DA62226180D29005F7730 /* WebView.swift in Sources */,
+				1E6E7F49261A3D82002C13C9 /* CardView.swift in Sources */,
+				1EB43B91261A1AAF0002A0CF /* GoogleMapView.swift in Sources */,
 				1E7DA61D26180743005F7730 /* FirstAid.swift in Sources */,
 				1E7DA61826143650005F7730 /* ViewRouter.swift in Sources */,
+				1E1FB05826186E670076B9F2 /* Location.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +497,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -430,6 +579,7 @@
 		};
 		1E7DA60726141D42005F7730 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3F7145B89A0A37AF7C7864F2 /* Pods-NationalNumber.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -451,6 +601,7 @@
 		};
 		1E7DA60826141D42005F7730 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8266EB27C6272234D63DBE5F /* Pods-NationalNumber.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -472,6 +623,7 @@
 		};
 		1E7DA60A26141D42005F7730 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70AB0E531D7967F114A5C61C /* Pods-NationalNumberTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -493,6 +645,7 @@
 		};
 		1E7DA60B26141D42005F7730 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1E0E34E038D57FD514998D42 /* Pods-NationalNumberTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -514,6 +667,7 @@
 		};
 		1E7DA60D26141D42005F7730 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9316515E53352C2F1294F070 /* Pods-NationalNumber-NationalNumberUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -533,6 +687,7 @@
 		};
 		1E7DA60E26141D42005F7730 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7EEA6C421066458B3B030B38 /* Pods-NationalNumber-NationalNumberUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
