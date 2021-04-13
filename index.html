@@ -11,16 +11,18 @@
 				document.getElementById("btn_convert").onclick = function() {
 					alert('you clicked!');
 				}
+				
+				var map = sop.map("map");
+				var utmkXY = new sop.LatLng (36.3504119,127.3845475); //wgs84 좌표를 UTMK로 변환
+				map.setView(sop.utmk(utmkXY.x, utmkXY.y), 9); 
+				var html = "<p>wgs84 :  36.3504119,127.3845475</p>";
+				html += "<p>x = "+utmkXY.x+" , y = "+utmkXY.x+"</p>";
+				$("#divCon").append(html);
+				console.log(html);
 
 			};	
 
-var map = sop.map("map");
-var utmkXY = new sop.LatLng (36.3504119,127.3845475); //wgs84 좌표를 UTMK로 변환
-map.setView(sop.utmk(utmkXY.x, utmkXY.y), 9); 
-var html = "<p>wgs84 :  36.3504119,127.3845475</p>";
-html += "<p>x = "+utmkXY.x+" , y = "+utmkXY.x+"</p>";
-$("#divCon").append(html);
-console.log(html);
+
 		</script>
 		<title>National Number API</title>
 	</head>
