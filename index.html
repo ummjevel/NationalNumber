@@ -2,7 +2,10 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js'></script>
+		<!-- <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.2/proj4.js'></script> -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>	
+		<script type="text/javascript" src="https://sgisapi.kostat.go.kr/OpenAPI3/auth/javascriptAuth?consumer_key=70576e5ae30345faa6c8"></script>
 		<script>
 			window.onload = function() {
 				document.getElementById("btn_convert").onclick = function() {
@@ -10,6 +13,14 @@
 				}
 
 			};	
+
+var map = sop.map("map");
+var utmkXY = new sop.LatLng (36.3504119,127.3845475); //wgs84 좌표를 UTMK로 변환
+map.setView(sop.utmk(utmkXY.x, utmkXY.y), 9); 
+var html = "<p>wgs84 :  36.3504119,127.3845475</p>";
+html += "<p>x = "+utmkXY.x+" , y = "+utmkXY.x+"</p>";
+$("#divCon").append(html);
+console.log(html);
 		</script>
 		<title>National Number API</title>
 	</head>
@@ -18,5 +29,7 @@
 		경도<input type='text' id='input_longitude'/>
 		위도<input type='text' id='input_latitude'/>
 		<input type='button' value='convert' id='btn_convert'/>
+<div id="map" class="" style="width:90%-20px;height:580px;z-index:1200"></div>
+ <div id="divCon"></div>
 	</body>
 </html>
