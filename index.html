@@ -7,6 +7,9 @@
 		<script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>	
 		<script type="text/javascript" src="https://sgisapi.kostat.go.kr/OpenAPI3/auth/javascriptAuth?consumer_key=ea852adca0c8454dae6b"></script>
 		<script>
+			var nn_est = { 7: "가", 8: "나", 9: "다", 10: "라", 11: "마", 12: "바", 13: "사" };
+			var nn_nor = { 13: "가", 14: "나", 15: "다", 16: "라", 17: "마", 18: "바", 19: "사", 20: "아" };
+			
 			window.onload = function() {
 				document.getElementById("btn_convert").onclick = function() {
 					alert('you clicked!');
@@ -20,8 +23,7 @@
 				$("#divCon").append(html);
 				console.log(html);
 				
-				const nn_est = { 7: "가", 8: "나", 9: "다", 10: "라", 11: "마", 12: "바", 13: "사" };
-				const nn_nor = { 13: "가", 14: "나", 15: "다", 16: "라", 17: "마", 18: "바", 19: "사", 20: "아" };
+				
 
 			};	
 			$(function() {
