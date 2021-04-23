@@ -19,6 +19,9 @@
 				html += "<p>x = "+utmkXY.x+" , y = "+utmkXY.x+"</p>";
 				$("#divCon").append(html);
 				console.log(html);
+				
+				const nn_est = { 7: "가", 8: "나", 9: "다", 10: "라", 11: "마", 12: "바", 13: "사" };
+				const nn_nor = { 13: "가", 14: "나", 15: "다", 16: "라", 17: "마", 18: "바", 19: "사", 20: "아" };
 
 			};	
 			$(function() {
@@ -26,11 +29,13 @@
 			});
 			
 			function Utmk2NN(utmkXY) {
-				console.log("utmkXY.x[0]: " + utmkXY.x[0]);
-				
-				console.log("utmkXY.x[0:2]: " + utmkXY.x.slice(0, 2));
-				
-				console.log("utmkXY.x: " + utmkXY.x + ", utmkXY.y: " + utmkXY.y);
+				var key_est = parseInt(utmkXY.x/100000);
+				var key_nor = parseInt(utmkXY.y/100000);
+				if (key_est in nn_est && key_nor in nn_nor) {
+					var rest_est = utmkXY.x.slice(0, (key_est + "").length).slice(0, 4);
+					var rest_nor = utmkXY.y.slice(0, (key_nor + "").length).slice(0, 4);
+					return nn_est[key_est] + nn_nor[key_nor] + " " + rest_est + " " + rest_nor;
+				}
 					
 			}
 			
