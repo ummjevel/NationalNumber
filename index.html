@@ -31,25 +31,24 @@
 			});
 			
 			function Utmk2NN(utmkXY) {
-				var key_est = parseInt(utmkXY.x/100000);
-				var key_nor = parseInt(utmkXY.y/100000);
-				if (key_est in nn_est && key_nor in nn_nor) {
-					var rest_est = utmkXY.x.slice(0, (key_est + "").length).slice(0, 4);
-					var rest_nor = utmkXY.y.slice(0, (key_nor + "").length).slice(0, 4);
-					return nn_est[key_est] + nn_nor[key_nor] + " " + rest_est + " " + rest_nor;
-				}
+				
 					
 			}
 			
 			// converter latitude, longitude to National Number
 			function Wgs842NN(latitude, longitude) {
-				// convert wgs84(lat, log) to utm-k
-				// 국가지점번호로 
+				// convert wgs84(lat, log) -> utm-k -> National Number
 				var utmkXY = new sop.LatLng(latitude, longitude);
-				if (utmkXY.x != undefined && utmkXY.y != undefined)
-					return Utmk2NN(utmkXY);
-				else
-					return "0";
+				if (utmkXY.x != undefined && utmkXY.y != undefined) {
+					var key_est = parseInt(utmkXY.x/100000);
+					var key_nor = parseInt(utmkXY.y/100000);
+					if (key_est in nn_est && key_nor in nn_nor) {
+						var rest_est = (utmkXY.x + "").slice((key_est + "").length).slice(0, 4);
+						var rest_nor = (utmkXY.y + "").slice((key_nor + "").length).slice(0, 4);
+						return nn_est[key_est] + nn_nor[key_nor] + " " + rest_est + " " + rest_nor;
+					}
+				}
+				return "0";
 				
 			}
 			
