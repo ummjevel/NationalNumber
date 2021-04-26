@@ -53,6 +53,7 @@
 			function test() {
 				try {
 					console.log("function test called");
+					$("#temp_text").val("function test called");
 					window.webkit.messageHandlers.test.postMessage("test completed");
 				} catch(err) {
 					alert(err);
@@ -65,7 +66,7 @@
 		<title>National Number API</title>
 	</head>
 	<body>
-		<h3>환영합니다.</h3>
+		<h3 id="temp_text">환영합니다.</h3>
 		경도<input type='text' id='input_longitude'/>
 		위도<input type='text' id='input_latitude'/>
 		<input type='button' value='convert' id='btn_convert'/>
