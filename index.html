@@ -52,7 +52,8 @@
 			
 			function test() {
 				try {
-					webkit.messageHandlers.test.postMessage("test completed");
+					console.log("function test called");
+					window.webkit.messageHandlers.test.postMessage("test completed");
 				} catch(err) {
 					alert(err);
 				}
