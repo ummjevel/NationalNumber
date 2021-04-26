@@ -30,7 +30,6 @@
 
 			};	
 			$(function() {
-				// 
 			});
 			
 			// converter latitude, longitude to National Number
@@ -51,15 +50,36 @@
 			}
 			
 			function test() {
+				// native -> javascript
 				try {
 					console.log("function test called");
-					$("#temp_text").val("function test called");
+					$("#temp_text").text("function test called");
+					// window.webkit.messageHandlers.test.postMessage("test completed");
+				} catch(err) {
+					alert(err);
+				}
+			}
+			
+			function test2() {
+				// javascript -> native
+				try {
+					console.log("function test2 called");
+					$("#temp_text").text("function test2 called");
 					window.webkit.messageHandlers.test.postMessage("test completed");
 				} catch(err) {
 					alert(err);
 				}
 			}
 			
+			function test3() {
+				try {
+					console.log("function test called");
+					$("#temp_text").text("function test called");
+					window.webkit.messageHandlers.test.postMessage("test completed");
+				} catch(err) {
+					alert(err);
+				}
+			}
 			
 
 		</script>
@@ -70,6 +90,9 @@
 		경도<input type='text' id='input_longitude'/>
 		위도<input type='text' id='input_latitude'/>
 		<input type='button' value='convert' id='btn_convert'/>
+		<input type='button' value='test1' id='btn_test1' onclick='test1();'/>
+		<input type='button' value='test2' id='btn_test2' onclick='test2();'/>
+		<input type='button' value='test3' id='btn_test3' onclick='test3();'/>
 <div id="map" class="" style="width:90%-20px;height:580px;z-index:1200"></div>
  <div id="divCon"></div>
 	</body>
