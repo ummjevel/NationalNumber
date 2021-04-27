@@ -29,6 +29,10 @@ struct WebView: UIViewRepresentable {
         let configuration = WKWebViewConfiguration()
         configuration.preferences = preferences
         
+        let contentController = WKUserContentController()
+        contentController.add(self.makeCoordinator(), name: "test")    // bridge 연결
+        configuration.userContentController = contentController
+        
         let webView = WKWebView(frame: CGRect.zero, configuration: configuration)
         webView.navigationDelegate = context.coordinator
         webView.allowsBackForwardNavigationGestures = true
@@ -37,6 +41,10 @@ struct WebView: UIViewRepresentable {
         
         if let url = URL(string: url) {
             webView.load(URLRequest(url: url))
+            
+            if self.url == "https://ummjevel.github.io/NationalNumber/" {
+                webView.scrollView.isScrollEnabled = false
+            }
         }
         
         return webView
@@ -46,12 +54,24 @@ struct WebView: UIViewRepresentable {
         // UIViewRepresentable 필수
     }
     
-    class Coordinator: NSObject, WKNavigationDelegate {
+    class Coordinator: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
+        
+        func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+            if(message.name == "test") {
+                print("call func: test")
+                nationalNumber = message.body
+                print("nationalNumber: ")
+                print(self.nationalNumber)
+            }
+        }
         
         let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
         
         var parent: WebView
         var foo: AnyCancellable? = nil
+        var longitude: AnyCancellable? = nil
+        var latitude: AnyCancellable? = nil
+        var nationalNumber: Any = ""
         
         init(_ uiWebView: WebView) {
             self.parent = uiWebView
@@ -77,6 +97,15 @@ struct WebView: UIViewRepresentable {
                 print(value)
             })
             
+            self.longitude = self.parent.viewModel.longitude.receive(on: RunLoop.main).sink(receiveValue: { value in
+                print("longitude: " + value)
+            })
+            
+            self.latitude = self.parent.viewModel.latitude.receive(on: RunLoop.main).sink(receiveValue: { value in
+                print("latitude: " + value)
+            })
+            
+            
             return decisionHandler(.allow)
                      
          }
@@ -95,6 +124,27 @@ struct WebView: UIViewRepresentable {
         func webView(_ webview: WKWebView, didFinish: WKNavigation!) {
             print("탐색 완료")
             self.indicator.stopAnimating()
+            
+            /*
+            print("start evalute: ")
+            
+            webview.evaluateJavaScript("convert2NN(36.3504119,127.3845475)") { (result, error) in
+                if let anError = error {
+                    print("Error: \(anError)")
+                }
+                print("Result: \(result ?? "")")
+            }
+            */
+            /*
+            webView.evaluateJavaScript("test()", completionHandler: { result, error in
+                if let anError = error {
+                    print("Error \(anError.localizedDescription)")
+                    print(anError)
+                }
+                
+                print("Result \(result ?? "")")
+            })*/
+            print("end evalute: ")
         }
         
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {

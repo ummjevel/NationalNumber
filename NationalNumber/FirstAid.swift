@@ -13,27 +13,36 @@ struct FirstAid: View {
     @ObservedObject var viewModel = WebViewModel()
     @State var bar = false
     
+    
     var body: some View {
         VStack {
             WebView(url: "http://m.safekorea.go.kr/idsiSFK/neo/main_m/lit/hiking.html"
                     , viewModel: viewModel)
-            /*            HStack {
+            
+            
+            
+            /*
+            WebView(url:"https://ummjevel.github.io/NationalNumber/", viewModel: viewModel)
+            HStack {
                 Text(bar ? "Before" : "After")
 
                 Button(action: {
                     self.viewModel.foo.send(true)
+                    self.viewModel.latitude.send("36.3504119")
+                    self.viewModel.longitude.send("127.3845475")
+                    
                 }) {
                     Text("보내기")
                 }
 
-            }
-             */
+            }*/
+             
         }
-/*
+        /*
         .onReceive(self.viewModel.bar.receive(on: RunLoop.main)) { value in
             self.bar = value
         }
- */
+         */
     }
 }
 

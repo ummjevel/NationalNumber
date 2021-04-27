@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GoogleMaps
+import GooglePlaces
 
 struct GoogleMapView: UIViewRepresentable {
     func makeCoordinator() -> Coordinator {
@@ -34,7 +35,7 @@ struct GoogleMapView: UIViewRepresentable {
         mapView.settings.rotateGestures = true
         mapView.settings.tiltGestures = true
         self._view_height = view_height
-        mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: self._view_height.wrappedValue/10 + 70, right: 0)
+        // mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: self._view_height.wrappedValue/10 + 70, right: 0)
         self.mapView = mapView
         /*let mapDelegateWrapper = GMSMapViewDelegateWrapper()
         self.mapDelegate = mapDelegateWrapper
@@ -126,3 +127,108 @@ struct GoogleMapView_Previews: PreviewProvider {
     }
 }
 */
+ 
+
+struct GooglePlacesView: UIViewControllerRepresentable {
+    
+    let placeController = GMSAutocompleteViewController()
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+    
+    typealias UIViewControllerType = GMSAutocompleteViewController
+    
+    func makeUIViewController(context: Context) -> GMSAutocompleteViewController {
+        
+        self.placeController.delegate = context.coordinator
+        
+        // self.placeController.present(placeController, animated: true, completion: nil)
+        
+        return placeController
+    }
+    
+    func updateUIViewController(_ uiViewController: GMSAutocompleteViewController, context: Context) {
+        
+    }
+    
+    class Coordinator : NSObject, GMSAutocompleteViewControllerDelegate {
+        func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+            print("[viewController] place: \(place)")
+            
+            // fill the text field
+            
+            // dismiss
+            viewController.dismiss(animated: true, completion: nil)
+            
+        }
+        
+        func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+            
+            print("[viewController] error: \(error)")
+        }
+        
+        func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+            
+            viewController.dismiss(animated: true, completion: nil)
+        }
+        
+        
+    }
+}
+
+struct PlacePicker: UIViewControllerRepresentable {
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    @Environment(\.presentationMode) var presentationMode
+    @Binding var address: String
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<PlacePicker>) -> GMSAutocompleteViewController {
+
+        let autocompleteController = GMSAutocompleteViewController()
+        autocompleteController.delegate = context.coordinator
+
+
+        let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.name.rawValue) |
+          UInt(GMSPlaceField.placeID.rawValue))
+        autocompleteController.placeFields = fields
+
+        let filter = GMSAutocompleteFilter()
+        filter.type = .address
+        filter.country = "KR"
+        autocompleteController.autocompleteFilter = filter
+        return autocompleteController
+    }
+
+    func updateUIViewController(_ uiViewController: GMSAutocompleteViewController, context: UIViewControllerRepresentableContext<PlacePicker>) {
+    }
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, GMSAutocompleteViewControllerDelegate {
+
+        var parent: PlacePicker
+
+        init(_ parent: PlacePicker) {
+            self.parent = parent
+        }
+
+        func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+            DispatchQueue.main.async {
+                print(place.description.description as Any)
+                self.parent.address =  place.name!
+                self.parent.presentationMode.wrappedValue.dismiss()
+            }
+        }
+
+        func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+            print("Error: ", error.localizedDescription)
+        }
+
+        func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+            parent.presentationMode.wrappedValue.dismiss()
+        }
+
+    }
+}
+

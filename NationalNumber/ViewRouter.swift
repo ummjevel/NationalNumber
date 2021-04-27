@@ -22,4 +22,7 @@ class ViewRouter: ObservableObject {
 class WebViewModel: ObservableObject {
     var foo = PassthroughSubject<Bool, Never>()
     var bar = PassthroughSubject<Bool, Never>()
+    
+    var latitude = PassthroughSubject<String, Never>()
+    var longitude = PassthroughSubject<String, Never>()
 }
