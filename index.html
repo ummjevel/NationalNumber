@@ -25,35 +25,8 @@
 				html += "<p>x = "+utmkXY.x+" , y = "+utmkXY.x+"</p>";
 				$("#divCon").append(html);
 				console.log(html);
-				
-				function temp_test2() {
-					// native -> javascript
-					try {
-						// console.log("function test called");
-						$("#temp_text").text("function temp_test2 called");
-						alert('hello world');
-						// window.webkit.messageHandlers.test.postMessage("test completed1");
-					} catch(err) {
-						alert(err);
-					}
-				}
 
 			};	
-			$(function() {
-				
-				function temp_test1() {
-					// native -> javascript
-					try {
-						// console.log("function test called");
-						$("#temp_text").text("function temp_test1 called");
-						alert('hello world');
-						// window.webkit.messageHandlers.test.postMessage("test completed1");
-					} catch(err) {
-						alert(err);
-					}
-				}
-				
-			});
 			
 			// converter latitude, longitude to National Number
 			function Wgs842NN(latitude, longitude) {
@@ -65,11 +38,18 @@
 					if (key_est in nn_est && key_nor in nn_nor) {
 						var rest_est = (utmkXY.x + "").slice((key_est + "").length).slice(0, 4);
 						var rest_nor = (utmkXY.y + "").slice((key_nor + "").length).slice(0, 4);
+						
 						return nn_est[key_est] + nn_nor[key_nor] + " " + rest_est + " " + rest_nor;
 					}
 				}
 				return "0";
 				
+			}
+			
+			function convert2NN(latitude, longitude) {
+				var result = Wgs842NN(latitude, longitude);
+				$("#temp_text").text("latitude: " + latitude + ", longitude: " + longitude + ", NN: " + result);
+				window.webkit.messageHandlers.test.postMessage(result);
 			}
 			
 			function test() {
@@ -104,6 +84,7 @@
 					alert(err);
 				}
 			}
+			
 			
 
 		</script>
