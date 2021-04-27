@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -17,6 +18,7 @@
 				}
 				
 				// init map
+				/*
 				var map = sop.map("map");
 				var utmkXY = new sop.LatLng (36.3504119,127.3845475); 
 				map.setView(sop.utmk(utmkXY.x, utmkXY.y), 9); 
@@ -25,11 +27,13 @@
 				html += "<p>x = "+utmkXY.x+" , y = "+utmkXY.x+"</p>";
 				$("#divCon").append(html);
 				console.log(html);
-
+				*/
 			};	
 			
 			// converter latitude, longitude to National Number
 			function Wgs842NN(latitude, longitude) {
+				// 위도 경도 범위 확인, 실패 시 범위 벗어났다고 표시
+				
 				// convert wgs84(lat, log) -> utm-k -> National Number
 				var utmkXY = new sop.LatLng(latitude, longitude);
 				if (utmkXY.x != undefined && utmkXY.y != undefined) {
@@ -41,8 +45,9 @@
 						
 						return nn_est[key_est] + nn_nor[key_nor] + " " + rest_est + " " + rest_nor;
 					}
+				} else {
+					return "변환에 실패하였습니다.";
 				}
-				return "0";
 				
 			}
 			
@@ -91,14 +96,16 @@
 		<title>National Number API</title>
 	</head>
 	<body>
-		<h3 id="temp_text">환영합니다.</h3>
+		<p id="temp_text" style="text-align: center;">변환 기능을 실행해주세요.</p>
+		<!--
 		경도<input type='text' id='input_longitude'/>
 		위도<input type='text' id='input_latitude'/>
 		<input type='button' value='convert' id='btn_convert'/>
 		<input type='button' value='test1' id='btn_test1' onclick='test();'/>
 		<input type='button' value='test2' id='btn_test2' onclick='test2();'/>
 		<input type='button' value='test3' id='btn_test3' onclick='test3();'/>
-<div id="map" class="" style="width:90%-20px;height:580px;z-index:1200"></div>
- <div id="divCon"></div>
+		<div id="map" class="" style="width:90%-20px;height:580px;z-index:1200"></div>
+		<div id="divCon"></div>
+		-->
 	</body>
 </html>
