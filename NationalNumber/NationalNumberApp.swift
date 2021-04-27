@@ -9,7 +9,7 @@ import SwiftUI
 import GoogleMaps
 import GooglePlaces
 
-let googleApiKey = "AIzaSyDB5k7_v016Zz4nj-DpSdZpv6D-A2-5CKE"
+let googleApiKey = "AIzaSyBKgzQuhGQkNutI21j17ynayLRnQ7iOL7A"
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
