@@ -15,6 +15,15 @@ struct GoogleMapView: UIViewRepresentable {
     }
     
     @Binding var view_height: CGFloat
+    @ObservedObject var googleModel: GoogleModel
+    
+    /*
+    @Binding var placeLatitude: CLLocationDegrees
+    @Binding var placeLongitude: CLLocationDegrees
+    @Binding var viewportSW: CLLocationCoordinate2D
+    @Binding var viewportNE: CLLocationCoordinate2D
+    */
+    
     typealias UIViewType = GMSMapView
     
     private static let defaultCamera = GMSCameraPosition.camera(withLatitude: 38.1206, longitude: 128.4654, zoom: 10.0)
@@ -23,8 +32,10 @@ struct GoogleMapView: UIViewRepresentable {
     private let mapView : GMSMapView
     // private weak var mapDelegate: GMSMapViewDelegateWrapper?
     let marker : GMSMarker = GMSMarker()
+    // var marker : GMSMarker?
 
-    init(view_height: Binding<CGFloat>) {
+    init(view_height: Binding<CGFloat>, googleModel: ObservedObject<GoogleModel>
+         /*, placeLatitude: Binding<CLLocationDegrees>, placeLongitude: Binding<CLLocationDegrees>, viewportSW: Binding<CLLocationCoordinate2D>, viewportNE: Binding<CLLocationCoordinate2D>*/) {
     // init(view_height: CGFloat) {
         let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: GoogleMapView.defaultCamera)
         mapView.isMyLocationEnabled = true
@@ -35,6 +46,13 @@ struct GoogleMapView: UIViewRepresentable {
         mapView.settings.rotateGestures = true
         mapView.settings.tiltGestures = true
         self._view_height = view_height
+        self._googleModel = googleModel
+        /*
+        self._placeLatitude = placeLatitude
+        self._placeLongitude = placeLongitude
+        self._viewportSW = viewportSW
+        self._viewportNE = viewportNE
+        */
         // mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: self._view_height.wrappedValue/10 + 70, right: 0)
         self.mapView = mapView
         /*let mapDelegateWrapper = GMSMapViewDelegateWrapper()
@@ -50,16 +68,40 @@ struct GoogleMapView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: GMSMapView, context: Context) {
-        marker.position = CLLocationCoordinate2D(latitude: 38.1206, longitude: 128.4654)
+        
+        if ((googleModel.placeLatitude == 0.0) && (googleModel.placeLongitude == 0.0)) {
+            
+        } else {
+            // let currentMarker = GMSMarker(position: CLLocationCoordinate2D(latitude: googleModel.placeLatitude, longitude: googleModel.placeLongitude))
+            // marker.position =
+            // marker.map = mapView // 안됨!
+            // currentMarker.title = "hiker11" // googleModel.placeName
+            // currentMarker.tracksViewChanges = true
+            // currentMarker.isDraggable = true
+            // currentMarker.map = uiView
+            // marker.title = googleModel.placeName
+            //marker.map = uiView
+            // mapView.camera = GMSCameraPosition.camera(withLatitude: placeLatitude, longitude: placeLongitude, zoom: 10.0)
+            // mapView.animate(to: GMSCameraPosition.camera(withLatitude: placeLatitude, longitude: placeLongitude, zoom: 15.0))
+            uiView.moveCamera(GMSCameraUpdate.fit(GMSCoordinateBounds(coordinate: googleModel.viewportNE, coordinate: googleModel.viewportSW)
+, withPadding: 50.0))
+            
+        }
+        
+        // print("marker.position: \(marker.position)")
+        // print("marker.title: \(String(describing: marker.title))")
+        print("current googleModel.placeName: \(googleModel.placeName)")
+        print("current googleModel.placeLatitude: \(googleModel.placeLatitude)")
+        print("current googleModel.placeLongitude: \(googleModel.placeLongitude)")
+        print("current latitude1: \(uiView.camera.target.latitude)")
+        print("current longitude1: \(uiView.camera.target.longitude)")
+        
+        // (latitude: 38.1206, longitude: 128.4654)
         // (latitude: -33.86, longitude: 151.20)
+        marker.position = CLLocationCoordinate2D(latitude: googleModel.placeLatitude, longitude: googleModel.placeLongitude)
         marker.title = "설악산 대청봉"
         marker.snippet = "전민정 다리 부서진 곳"
-        marker.map = mapView
-        
-        print("current longitude1")
-        print(uiView.camera.target.longitude)
-        print("current latitude1")
-        print(uiView.camera.target.latitude)
+        marker.map = uiView
     }
     
     
@@ -131,16 +173,27 @@ struct GoogleMapView_Previews: PreviewProvider {
 
 struct GooglePlacesView: UIViewControllerRepresentable {
     
+    @Binding var address: String
+    @Binding var showButtonbar: Bool
+    @ObservedObject var googleModel: GoogleModel
+    /*
+    @Binding var placeLatitude: CLLocationDegrees
+    @Binding var placeLongitude: CLLocationDegrees
+    @Binding var viewportSW: CLLocationCoordinate2D
+    @Binding var viewportNE: CLLocationCoordinate2D
+    */
+    
     let placeController = GMSAutocompleteViewController()
     
+    
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(self)
     }
     
     typealias UIViewControllerType = GMSAutocompleteViewController
     
     func makeUIViewController(context: Context) -> GMSAutocompleteViewController {
-        
+        print("GooglePlacesView: makeUIViewController")
         self.placeController.delegate = context.coordinator
         
         // self.placeController.present(placeController, animated: true, completion: nil)
@@ -153,13 +206,51 @@ struct GooglePlacesView: UIViewControllerRepresentable {
     }
     
     class Coordinator : NSObject, GMSAutocompleteViewControllerDelegate {
+        
+        var parent: GooglePlacesView
+        
+        init(_ parent: GooglePlacesView) {
+            self.parent = parent
+        }
+        
         func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
             print("[viewController] place: \(place)")
             
-            // fill the text field
+            // fill the text
+            self.parent.address = place.name ?? ""
+            
+            
+            self.parent.googleModel.placeLatitude = place.coordinate.latitude
+            self.parent.googleModel.placeLongitude = place.coordinate.longitude
+            self.parent.googleModel.viewportSW = place.viewport?.southWest ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+            self.parent.googleModel.viewportNE = place.viewport?.northEast ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
+            self.parent.googleModel.placeName = place.name ?? ""
+            
+            /*
+            self.parent.googleModel.placeLatitude.send(place.coordinate.latitude)
+            self.parent.googleModel.placeLongitude.send(place.coordinate.longitude)
+            self.parent.googleModel.viewportSW.send(place.viewport?.southWest ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0))
+            self.parent.googleModel.viewportNE.send(place.viewport?.northEast ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0))
+             */
+            
+            self.parent.showButtonbar = true
+            
+            // weak var pvc = viewController.presentingViewController
             
             // dismiss
-            viewController.dismiss(animated: true, completion: nil)
+            viewController.dismiss(animated: true, completion: {
+                /* 일단 레이아웃 하는 것 부터 되는지 확인해보고..
+                let vc = FunctionController(isShown: self.parent.$showButtonbar)
+                vc.modalPresentationStyle = .currentContext
+                vc.modalTransitionStyle = .coverVertical
+                pvc?.present(vc, animated: true, completion: nil)
+                */
+            })
+            
+            // FunctionControllerView.init(isShown: self.parent.$isShown)
+            
+            // viewController.modalPresentationStyle = .currentContext
+            // viewController.present(viewController, animated: true, completion: nil)
             
         }
         
@@ -171,12 +262,44 @@ struct GooglePlacesView: UIViewControllerRepresentable {
         func wasCancelled(_ viewController: GMSAutocompleteViewController) {
             
             viewController.dismiss(animated: true, completion: nil)
+            
         }
         
         
     }
 }
 
+
+/*
+struct FunctionController: UIViewControllerRepresentable {
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    
+    typealias UIViewControllerType = UIViewController
+    
+    
+    func makeUIViewController(context: Context) -> UIViewController {
+        let functionController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        return functionController
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        <#code#>
+    }
+    
+    class Coordinator : NSObject, UIPageViewControllerDelegate {
+        
+        var parent: FunctionController
+        
+        init(_ parent: FunctionController) {
+            self.parent = parent
+        }
+    }
+}*/
+
+/*
 struct PlacePicker: UIViewControllerRepresentable {
     
     func makeCoordinator() -> Coordinator {
@@ -232,3 +355,4 @@ struct PlacePicker: UIViewControllerRepresentable {
     }
 }
 
+*/

@@ -13,14 +13,10 @@ struct SearchBar: View {
 
     var body: some View {
         ZStack {
-            Text(searchKey)
-                .foregroundColor(.gray)
-                .padding()
-            Spacer()
             HStack {
-                Spacer()
-                Spacer()
-                Spacer()
+                Text(searchKey)
+                    .foregroundColor(.gray)
+                    .padding()
                 Spacer()
                 Button(action: { self.searchKey = "please enter the place."}) {
                     Image(systemName: "multiply.circle.fill")

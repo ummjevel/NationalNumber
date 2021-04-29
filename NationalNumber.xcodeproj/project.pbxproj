@@ -20,6 +20,7 @@
 		1E7DA61D26180743005F7730 /* FirstAid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA61C26180743005F7730 /* FirstAid.swift */; };
 		1E7DA62226180D29005F7730 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA62126180D29005F7730 /* WebView.swift */; };
 		1EA85E482637FDA100E28A2F /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA85E472637FDA100E28A2F /* SearchBar.swift */; };
+		1EB008E6263AA40200C58D53 /* FunctionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB008E5263AA40200C58D53 /* FunctionController.swift */; };
 		1EB43B91261A1AAF0002A0CF /* GoogleMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB43B90261A1AAF0002A0CF /* GoogleMapView.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +62,7 @@
 		1E7DA61C26180743005F7730 /* FirstAid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstAid.swift; sourceTree = "<group>"; };
 		1E7DA62126180D29005F7730 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		1EA85E472637FDA100E28A2F /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		1EB008E5263AA40200C58D53 /* FunctionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionController.swift; sourceTree = "<group>"; };
 		1EB43B90261A1AAF0002A0CF /* GoogleMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapView.swift; sourceTree = "<group>"; };
 		3F7145B89A0A37AF7C7864F2 /* Pods-NationalNumber.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NationalNumber.debug.xcconfig"; path = "Target Support Files/Pods-NationalNumber/Pods-NationalNumber.debug.xcconfig"; sourceTree = "<group>"; };
 		70AB0E531D7967F114A5C61C /* Pods-NationalNumberTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NationalNumberTests.debug.xcconfig"; path = "Target Support Files/Pods-NationalNumberTests/Pods-NationalNumberTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				1EB43B90261A1AAF0002A0CF /* GoogleMapView.swift */,
 				1E6E7F48261A3D82002C13C9 /* CardView.swift */,
 				1EA85E472637FDA100E28A2F /* SearchBar.swift */,
+				1EB008E5263AA40200C58D53 /* FunctionController.swift */,
 			);
 			path = NationalNumber;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				1E7DA613261432A5005F7730 /* TabBarIcon.swift in Sources */,
 				1E7DA5E726141D42005F7730 /* ContentView.swift in Sources */,
 				1E7DA5E526141D42005F7730 /* NationalNumberApp.swift in Sources */,
+				1EB008E6263AA40200C58D53 /* FunctionController.swift in Sources */,
 				1E7DA62226180D29005F7730 /* WebView.swift in Sources */,
 				1E6E7F49261A3D82002C13C9 /* CardView.swift in Sources */,
 				1EB43B91261A1AAF0002A0CF /* GoogleMapView.swift in Sources */,
