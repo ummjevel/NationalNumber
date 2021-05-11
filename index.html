@@ -50,7 +50,8 @@
 			
 			function convert2NN(latitude, longitude) {
 				var result = Wgs842NN(latitude, longitude);
-				$("#temp_text").text("latitude: " + latitude + ", longitude: " + longitude + ", NN: " + result);
+				console.log("latitude: " + latitude + ", longitude: " + longitude + ", NN: " + result);
+				$("#temp_text").text(result);
 				window.webkit.messageHandlers.test.postMessage(result);
 			}
 			
