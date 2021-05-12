@@ -16,6 +16,8 @@ struct WebView: UIViewRepresentable {
     var url: String
     @ObservedObject var viewModel: WebViewModel
     
+    // @ObservedObject var googleModel: GoogleModel
+    
     func makeCoordinator() -> Coordinator {
         // UIViewRepresentable 필수
         Coordinator(self)
@@ -58,10 +60,14 @@ struct WebView: UIViewRepresentable {
         
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
             if(message.name == "test") {
-                print("call func: test")
+                print("call func: test-----------")
                 nationalNumber = message.body
                 print("nationalNumber: ")
                 print(self.nationalNumber)
+                // parent.googleModel.nationalNumber = nationalNumber as? String ?? ""
+                
+                // print("parent.googleModel.nationalNumber \(parent.googleModel.nationalNumber)")
+                
             }
         }
         
@@ -69,8 +75,9 @@ struct WebView: UIViewRepresentable {
         
         var parent: WebView
         var foo: AnyCancellable? = nil
-        var longitude: AnyCancellable? = nil
-        var latitude: AnyCancellable? = nil
+        var foo2: AnyCancellable? = nil
+        // var longitude: AnyCancellable? = nil
+        // var latitude: AnyCancellable? = nil
         var nationalNumber: Any = ""
         
         init(_ uiWebView: WebView) {
@@ -79,6 +86,9 @@ struct WebView: UIViewRepresentable {
         
         deinit {
             foo?.cancel()
+            foo2?.cancel()
+            // longitude?.cancel()
+            // latitude?.cancel()
         }
         
         func webView(_ webView: WKWebView,
@@ -90,7 +100,7 @@ struct WebView: UIViewRepresentable {
                     return decisionHandler(.cancel)
                 }
             }*/
-            
+            /*
             parent.viewModel.bar.send(false)
             
             self.foo = self.parent.viewModel.foo.receive(on: RunLoop.main).sink(receiveValue: { value in
@@ -104,6 +114,27 @@ struct WebView: UIViewRepresentable {
             self.latitude = self.parent.viewModel.latitude.receive(on: RunLoop.main).sink(receiveValue: { value in
                 print("latitude: " + value)
             })
+            */
+            
+            self.foo = self.parent.viewModel.foo.receive(on: RunLoop.main).sink(receiveValue: { value in
+                        print("--------------------- foo.receive  : \(value)")
+            })
+            
+            self.foo2 = self.parent.viewModel.foo2.receive(on: RunLoop.main).sink(receiveValue: { value in
+                print("--------------------- foo2.receive  : \(value.placeLatitude), \(value.placeLongitude)")
+                webView.evaluateJavaScript("convert2NN('\(value.placeLatitude)','\(value.placeLongitude)')") { [self] (result, error) in
+                    if let anError = error {
+                        print("Error: \(anError)")
+                    }
+                    print("Result: \(result ?? "")")
+                    if let result = result {
+                        print("hihihihihi           \(result)")
+                        
+                        parent.viewModel.bar2.send(result as! String)
+                    }
+                }
+            })
+            
             
             
             return decisionHandler(.allow)
@@ -125,31 +156,43 @@ struct WebView: UIViewRepresentable {
             print("탐색 완료")
             self.indicator.stopAnimating()
             
-            /*
-            print("start evalute: ")
             
-            webview.evaluateJavaScript("convert2NN(36.3504119,127.3845475)") { (result, error) in
-                if let anError = error {
-                    print("Error: \(anError)")
-                }
-                print("Result: \(result ?? "")")
-            }
-            */
             /*
-            webView.evaluateJavaScript("test()", completionHandler: { result, error in
-                if let anError = error {
-                    print("Error \(anError.localizedDescription)")
-                    print(anError)
+            if(parent.googleModel.completedSearch) {
+                print("googleModel.placeLatitude: \(parent.googleModel.placeLatitude)")
+                print("googleModel.placeLongitude: \(parent.googleModel.placeLongitude)")
+                
+                
+                print("start evalute: ")
+                
+                //convert2NN(36.3504119,127.3845475)
+                webview.evaluateJavaScript("convert2NN('\(parent.googleModel.placeLatitude)','\(parent.googleModel.placeLongitude)')") { (result, error) in
+                    if let anError = error {
+                        print("Error: \(anError)")
+                    }
+                    print("Result: \(result ?? "")")
                 }
                 
-                print("Result \(result ?? "")")
-            })*/
-            print("end evalute: ")
+                /*
+                webView.evaluateJavaScript("test()", completionHandler: { result, error in
+                    if let anError = error {
+                        print("Error \(anError.localizedDescription)")
+                        print(anError)
+                    }
+                    
+                    print("Result \(result ?? "")")
+                })*/
+                print("end evalute: ")
+            }
+            */
+            
+            
         }
         
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
             print("탐색 중 오류 발생")
             self.indicator.stopAnimating()
         }
+        
     }
 }

@@ -11,7 +11,7 @@ import GooglePlaces
 
 struct GoogleMapView: UIViewRepresentable {
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(self)
     }
     
     @Binding var view_height: CGFloat
@@ -53,7 +53,7 @@ struct GoogleMapView: UIViewRepresentable {
         self._viewportSW = viewportSW
         self._viewportNE = viewportNE
         */
-        // mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: self._view_height.wrappedValue/10 + 70, right: 0)
+        // mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: self._view_height.wrappedValue/10 , right: 0)
         self.mapView = mapView
         /*let mapDelegateWrapper = GMSMapViewDelegateWrapper()
         self.mapDelegate = mapDelegateWrapper
@@ -69,6 +69,17 @@ struct GoogleMapView: UIViewRepresentable {
     
     func updateUIView(_ uiView: GMSMapView, context: Context) {
         
+        // 검색으로 이동한 경우
+        if (googleModel.completedSearch) {
+            uiView.moveCamera(GMSCameraUpdate.fit(GMSCoordinateBounds(coordinate: googleModel.viewportNE, coordinate: googleModel.viewportSW), withPadding: 50.0))
+            uiView.clear() // self.marker.map = nil
+            self.marker.position = CLLocationCoordinate2D(latitude: googleModel.placeLatitude, longitude: googleModel.placeLongitude)
+            self.marker.title = self.googleModel.placeName
+            self.marker.map = uiView
+            print("--------------- current marker title is \(self.googleModel.placeName)")
+        }
+        // long press로 marker 를 찍은 경우 외 : else..
+        /*
         if ((googleModel.placeLatitude == 0.0) && (googleModel.placeLongitude == 0.0)) {
             
         } else {
@@ -83,10 +94,16 @@ struct GoogleMapView: UIViewRepresentable {
             //marker.map = uiView
             // mapView.camera = GMSCameraPosition.camera(withLatitude: placeLatitude, longitude: placeLongitude, zoom: 10.0)
             // mapView.animate(to: GMSCameraPosition.camera(withLatitude: placeLatitude, longitude: placeLongitude, zoom: 15.0))
-            uiView.moveCamera(GMSCameraUpdate.fit(GMSCoordinateBounds(coordinate: googleModel.viewportNE, coordinate: googleModel.viewportSW)
-, withPadding: 50.0))
             
-        }
+            
+            // uiView.moveCamera(GMSCameraUpdate.fit(GMSCoordinateBounds(coordinate: googleModel.viewportNE, coordinate: googleModel.viewportSW), withPadding: 50.0))
+            
+            //self.marker.position = CLLocationCoordinate2D(latitude: googleModel.placeLatitude, longitude: googleModel.placeLongitude)
+            //self.marker.title = self.googleModel.placeName
+            //self.marker.map = self.mapView
+            
+            
+        }*/
         
         // print("marker.position: \(marker.position)")
         // print("marker.title: \(String(describing: marker.title))")
@@ -96,12 +113,18 @@ struct GoogleMapView: UIViewRepresentable {
         print("current latitude1: \(uiView.camera.target.latitude)")
         print("current longitude1: \(uiView.camera.target.longitude)")
         
+        //marker.position = CLLocationCoordinate2D(latitude: googleModel.placeLatitude, longitude: googleModel.placeLongitude)
+        //marker.title = "hello"
+        //marker.map = uiView // self.mapView
+        
         // (latitude: 38.1206, longitude: 128.4654)
         // (latitude: -33.86, longitude: 151.20)
+        /*
         marker.position = CLLocationCoordinate2D(latitude: googleModel.placeLatitude, longitude: googleModel.placeLongitude)
         marker.title = "설악산 대청봉"
         marker.snippet = "전민정 다리 부서진 곳"
         marker.map = uiView
+         */
     }
     
     
@@ -125,6 +148,12 @@ struct GoogleMapView: UIViewRepresentable {
     
     
     class Coordinator : NSObject, GMSMapViewDelegate, CLLocationManagerDelegate {
+        
+        var parent: GoogleMapView
+        
+        init(_ parent: GoogleMapView) {
+            self.parent = parent
+        }
         
         var shouldHandleTap: Bool = true
         
@@ -158,7 +187,20 @@ struct GoogleMapView: UIViewRepresentable {
         func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
             print("[] long press")
             // 꾸욱 누르면
+            mapView.clear()
+            self.parent.marker.position = coordinate
+            // self.parent.marker.title = "Hello World"
+            self.parent.marker.map = mapView // self.parent.mapView
+            let bounds = GMSCoordinateBounds(coordinate: mapView.projection.visibleRegion().nearLeft, coordinate: mapView.projection.visibleRegion().farRight)
+            self.parent.googleModel.viewportSW = bounds.southWest
+            self.parent.googleModel.viewportNE = bounds.northEast
+            self.parent.googleModel.placeLatitude = coordinate.latitude
+            self.parent.googleModel.placeLongitude = coordinate.longitude
+            self.parent.googleModel.completedSetMarker = true
+            self.parent.googleModel.placeName = ""
+            self.parent.googleModel.completedSearch = true
         }
+        
     }
     
 }
@@ -225,6 +267,7 @@ struct GooglePlacesView: UIViewControllerRepresentable {
             self.parent.googleModel.viewportSW = place.viewport?.southWest ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
             self.parent.googleModel.viewportNE = place.viewport?.northEast ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
             self.parent.googleModel.placeName = place.name ?? ""
+            self.parent.googleModel.completedSearch = true
             
             /*
             self.parent.googleModel.placeLatitude.send(place.coordinate.latitude)

@@ -11,14 +11,14 @@ import WebKit
 struct FirstAid: View {
     
     @ObservedObject var viewModel = WebViewModel()
-    @State var bar = false
+    // @ObservedObject var googleModel = GoogleModel()
+    // @State var bar = false
     
     
     var body: some View {
         VStack {
-            WebView(url: "http://m.safekorea.go.kr/idsiSFK/neo/main_m/lit/hiking.html"
-                    , viewModel: viewModel)
-            
+            WebView(url: "http://m.safekorea.go.kr/idsiSFK/neo/main_m/lit/hiking.html", viewModel: viewModel)
+                    // , googleModel: googleModel)
             
             
             /*

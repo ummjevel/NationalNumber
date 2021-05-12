@@ -17,30 +17,39 @@ enum Page {
     case setting
 }
 
+enum ActiveSheet: Identifiable {
+    case place//, share, convert
+    
+    var id: Int {
+        hashValue
+    }
+}
+
 class ViewRouter: ObservableObject {
     @Published var currentPage: Page = .location
+}
+
+struct placeLatLog {
+    var placeLatitude : Double
+    var placeLongitude : Double
 }
 
 class WebViewModel: ObservableObject {
     var foo = PassthroughSubject<Bool, Never>()
     var bar = PassthroughSubject<Bool, Never>()
     
-    var latitude = PassthroughSubject<String, Never>()
-    var longitude = PassthroughSubject<String, Never>()
+    var foo2 = PassthroughSubject<placeLatLog, Never>()
+    var bar2 = PassthroughSubject<String, Never>()
 }
 
 class GoogleModel: ObservableObject {
-    /*
-    var placeLatitude = PassthroughSubject<CLLocationDegrees, Never>()
-    var placeLongitude = PassthroughSubject<CLLocationDegrees, Never>()
-    var viewportSW = PassthroughSubject<CLLocationCoordinate2D, Never>()
-    var viewportNE = PassthroughSubject<CLLocationCoordinate2D, Never>()
-    var placeName = PassthroughSubject<String?, Never>()
-    */
+    @Published var completedSearch = false
+    @Published var completedSetMarker = false
     @Published var placeLatitude = 0.0
     @Published var placeLongitude = 0.0
     @Published var viewportSW = CLLocationCoordinate2D()
     @Published var viewportNE = CLLocationCoordinate2D()
     @Published var placeName = ""
-    
+    @Published var nationalNumber = ""
 }
+

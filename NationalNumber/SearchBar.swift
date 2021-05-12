@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SearchBar: View {
     @Binding var searchKey: String
+    @ObservedObject var googleModel: GoogleModel
+    
     let width, height: CGFloat
 
     var body: some View {
@@ -18,7 +20,16 @@ struct SearchBar: View {
                     .foregroundColor(.gray)
                     .padding()
                 Spacer()
-                Button(action: { self.searchKey = "please enter the place."}) {
+                Button(action: {
+                    self.searchKey = "please enter the place."
+                    self.googleModel.completedSearch = false
+                    self.googleModel.completedSetMarker = false
+                    self.googleModel.placeName = ""
+                    self.googleModel.placeLatitude = 0.0
+                    self.googleModel.placeLongitude = 0.0
+                    self.googleModel.nationalNumber = ""
+                    
+                }) {
                     Image(systemName: "multiply.circle.fill")
                         .foregroundColor(.secondary)
                 }.padding(.all, 10)

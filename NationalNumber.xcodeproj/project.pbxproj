@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1E1FB05826186E670076B9F2 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1FB05726186E670076B9F2 /* Location.swift */; };
+		1E5696B9264A104300502F10 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5696B8264A104300502F10 /* ShareSheet.swift */; };
+		1E5696C1264A692D00502F10 /* HalfModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5696C0264A692D00502F10 /* HalfModalView.swift */; };
+		1E5696C6264C0DEF00502F10 /* CustomActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5696C5264C0DEF00502F10 /* CustomActionSheet.swift */; };
 		1E6E7F49261A3D82002C13C9 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6E7F48261A3D82002C13C9 /* CardView.swift */; };
 		1E7DA5E526141D42005F7730 /* NationalNumberApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA5E426141D42005F7730 /* NationalNumberApp.swift */; };
 		1E7DA5E726141D42005F7730 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7DA5E626141D42005F7730 /* ContentView.swift */; };
@@ -44,6 +47,9 @@
 /* Begin PBXFileReference section */
 		1E0E34E038D57FD514998D42 /* Pods-NationalNumberTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NationalNumberTests.release.xcconfig"; path = "Target Support Files/Pods-NationalNumberTests/Pods-NationalNumberTests.release.xcconfig"; sourceTree = "<group>"; };
 		1E1FB05726186E670076B9F2 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		1E5696B8264A104300502F10 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
+		1E5696C0264A692D00502F10 /* HalfModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfModalView.swift; sourceTree = "<group>"; };
+		1E5696C5264C0DEF00502F10 /* CustomActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActionSheet.swift; sourceTree = "<group>"; };
 		1E6E7F48261A3D82002C13C9 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		1E7DA5E126141D42005F7730 /* NationalNumber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NationalNumber.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E7DA5E426141D42005F7730 /* NationalNumberApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NationalNumberApp.swift; sourceTree = "<group>"; };
@@ -135,6 +141,9 @@
 				1E6E7F48261A3D82002C13C9 /* CardView.swift */,
 				1EA85E472637FDA100E28A2F /* SearchBar.swift */,
 				1EB008E5263AA40200C58D53 /* FunctionController.swift */,
+				1E5696B8264A104300502F10 /* ShareSheet.swift */,
+				1E5696C0264A692D00502F10 /* HalfModalView.swift */,
+				1E5696C5264C0DEF00502F10 /* CustomActionSheet.swift */,
 			);
 			path = NationalNumber;
 			sourceTree = "<group>";
@@ -428,7 +437,10 @@
 				1EB008E6263AA40200C58D53 /* FunctionController.swift in Sources */,
 				1E7DA62226180D29005F7730 /* WebView.swift in Sources */,
 				1E6E7F49261A3D82002C13C9 /* CardView.swift in Sources */,
+				1E5696C1264A692D00502F10 /* HalfModalView.swift in Sources */,
 				1EB43B91261A1AAF0002A0CF /* GoogleMapView.swift in Sources */,
+				1E5696C6264C0DEF00502F10 /* CustomActionSheet.swift in Sources */,
+				1E5696B9264A104300502F10 /* ShareSheet.swift in Sources */,
 				1E7DA61D26180743005F7730 /* FirstAid.swift in Sources */,
 				1EA85E482637FDA100E28A2F /* SearchBar.swift in Sources */,
 				1E7DA61826143650005F7730 /* ViewRouter.swift in Sources */,
@@ -593,6 +605,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"NationalNumber/Preview Content\"";
+				DEVELOPMENT_TEAM = RG3C7D3W2U;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = NationalNumber/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -615,6 +628,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"NationalNumber/Preview Content\"";
+				DEVELOPMENT_TEAM = RG3C7D3W2U;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = NationalNumber/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
