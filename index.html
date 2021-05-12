@@ -52,7 +52,7 @@
 				var result = Wgs842NN(latitude, longitude);
 				console.log("latitude: " + latitude + ", longitude: " + longitude + ", NN: " + result);
 				$("#temp_text").text(result);
-				window.webkit.messageHandlers.test.postMessage(result);
+				// window.webkit.messageHandlers.test.postMessage(result);
 				return result;
 			}
 			
