@@ -58,9 +58,14 @@ struct ContentView: View {
                                         }
                                         TextField("본인 전화번호", text: $userSettings.cellphone).keyboardType(.phonePad)
                                         TextField("보호자 전화번호", text: $userSettings.cellphone2).keyboardType(.phonePad)
+                                        
                                     })
                                     Section(header: Text("전달내용"), content: {
-                                        Text("이름: \(userSettings.name.isEmpty ? "" : userSettings.name) \n성별: \(userSettings.gender) \n생년월일 : \(userSettings.birth, formatter: Self.dateFormatter) \n본인 전화번호: \(ConvertPhoneNumber(phoneNumber: userSettings.cellphone)) \n보호자 전화번호: \(ConvertPhoneNumber(phoneNumber:userSettings.cellphone2))")
+                                        Text(userSettings.message)
+                                        // "이름: \(userSettings.name) \n성별: \(userSettings.gender) \n생년월일 : \(userSettings.birth, formatter: Self.dateFormatter) \n본인 전화번호: \(ConvertPhoneNumber(phoneNumber: userSettings.cellphone)) \n보호자 전화번호: \(ConvertPhoneNumber(phoneNumber:userSettings.cellphone2))"
+                                    })
+                                    Section(header: Text("신고번호"), footer: Text("구조요청 문자 전송 시 수신하는 전화번호입니다. 예) 119"), content: {
+                                        TextField("신고번호", text: $userSettings.messageRecipients).keyboardType(.phonePad)
                                     })
                                 }.navigationTitle("설정")
                             }.navigationViewStyle(StackNavigationViewStyle())
@@ -100,39 +105,6 @@ struct ContentView: View {
 }
 
 /*
- //.applyPatternOnNumbers(pattern: "###-####-####", replacmentCharacter: "#")
-extension String {
-    func applyPatternOnNumbers(pattern: String, replacmentCharacter: Character) -> String {
-        var pureNumber = self.replacingOccurrences( of: "[^0-9]", with: "", options: .regularExpression)
-        for index in 0 ..< pattern.count {
-            guard index < pureNumber.count else { return pureNumber }
-            let stringIndex = String.Index(encodedOffset: index) //String.Index(utf16Offset:in:)
-            let patternCharacter = pattern[stringIndex]
-            guard patternCharacter != replacmentCharacter else { continue }
-            pureNumber.insert(patternCharacter, at: stringIndex)
-        }
-        return pureNumber
-    }
-}*/
-
-extension String{
-    func getArrayAfterRegex(regex: String) -> [String] {
-        
-        do {
-            let regex = try NSRegularExpression(pattern: regex)
-            let results = regex.matches(in: self,
-                                        range: NSRange(self.startIndex..., in: self))
-            return results.map {
-                String(self[Range($0.range, in: self)!])
-            }
-        } catch let error {
-            print("invalid regex: \(error.localizedDescription)")
-            return []
-        }
-    }
-}
-
-
 func ConvertPhoneNumber(phoneNumber: String) -> String {
     var first: String = ""
     var second: String = ""
@@ -192,7 +164,7 @@ func ConvertPhoneNumber(phoneNumber: String) -> String {
     }
     
 }
-
+*/
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(viewRouter: ViewRouter())

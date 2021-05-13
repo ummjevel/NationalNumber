@@ -8,11 +8,7 @@
 import SwiftUI
 import GoogleMaps
 import GooglePlaces
-
-struct Whatever {
-     var view: AnyView
-}
-
+import MessageUI
 
 struct Location: View {
     
@@ -27,6 +23,7 @@ struct Location: View {
     @State var activeSheet: ActiveSheet?
     @State var halfModal_shown = false
     @State var shareModal_shown = false
+    
     
     var body: some View {
         GeometryReader { geometry in
@@ -116,9 +113,10 @@ struct Location: View {
                                              showButtonbar: $showButtonbar,
                                              googleModel: googleModel)
                             
-                       /* case .share:
-                            ShareSheet(activityItems: ["Hello World"])
-                        case .convert:
+                       //case .message:
+                            //MessageView()
+                            //ShareSheet(activityItems: ["Hello World"])
+                       /* case .convert:
                             CustomActionSheet()
                      */
                     }
@@ -132,6 +130,10 @@ struct Location: View {
                         HStack {
                             Button(action: {
                                 print("문자전송 터치")
+                                //activeSheet = .message
+                                print("전송 번호: \(UserDefaults.standard.string(forKey: "messageRecipients") ?? "")")
+                                
+                                presentMessageCompose(message: getMessageText(), messageRecipients: UserDefaults.standard.string(forKey: "messageRecipients") ?? "")
                             }) {
                                 HStack {
                                     Image(systemName: "arrow.up.message.fill")
@@ -185,5 +187,43 @@ struct Location: View {
         // guard let urlShare = URL(string: "https://developer.apple.com/xcode/swiftui/") else { return }
         let activityVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         UIApplication.shared.windows.first?.rootViewController?.present(activityVC, animated: true, completion: nil)
+    }
+    
+    func presentMessageCompose(message:String, messageRecipients: String) {
+
+        let messageComposeDelegate = MessageComposeDelegate()
+
+        guard MFMessageComposeViewController.canSendText() else {
+            print("---------- cannot send text...")
+            let alert = UIAlertController(title: "구조문자 전송 실패", message: "문자 전송이 실패하였습니다.", preferredStyle: .alert)
+            let done = UIAlertAction(title: "OK", style: .default) { UIAlertAction in
+                print("done...")
+            }
+            alert.addAction(done)
+            UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        // let vc = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.rootViewController
+
+        let composeVC = MFMessageComposeViewController()
+        composeVC.messageComposeDelegate = messageComposeDelegate
+        composeVC.recipients = [messageRecipients]
+        composeVC.body = message
+        UIApplication.shared.windows.first?.rootViewController?.present(composeVC, animated: true, completion: nil)
+    }
+    
+    func getMessageText() -> String {
+        
+        print("\(UserDefaults.standard.object(forKey: "message") ?? "")\n현위치(lat, long): \(String(format: "%.5f",  googleModel.placeLatitude)), \(String(format: "%.5f", googleModel.placeLongitude))\n국가지점번호: \(googleModel.nationalNumber)")
+        
+        return "\(UserDefaults.standard.object(forKey: "message") ?? "")\n현위치(lat, long): \(String(format: "%.5f",  googleModel.placeLatitude)), \(String(format: "%.5f", googleModel.placeLongitude))\n국가지점번호: \(googleModel.nationalNumber)"
+    }
+}
+
+class MessageComposeDelegate: NSObject, MFMessageComposeViewControllerDelegate {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+       // Customize here
+       controller.dismiss(animated: true)
     }
 }

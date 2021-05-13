@@ -18,7 +18,7 @@ enum Page {
 }
 
 enum ActiveSheet: Identifiable {
-    case place//, share, convert
+    case place//, message //, share, convert
     
     var id: Int {
         hashValue
@@ -31,7 +31,7 @@ struct placeLatLog {
 }
 
 class ViewRouter: ObservableObject {
-    @Published var currentPage: Page = .setting
+    @Published var currentPage: Page = .location
 }
 
 class UserSettings: ObservableObject {
@@ -39,6 +39,7 @@ class UserSettings: ObservableObject {
     @Published var name: String {
         didSet {
             UserDefaults.standard.set(name, forKey: "name")
+            _ = UpdateMessage()
         }
     }
     
@@ -47,24 +48,40 @@ class UserSettings: ObservableObject {
     @Published var gender: String {
         didSet {
             UserDefaults.standard.set(gender, forKey: "gender")
+            _ = UpdateMessage()
         }
     }
     
     @Published var birth: Date {
         didSet {
             UserDefaults.standard.set(birth, forKey: "birth")
+            _ = UpdateMessage()
         }
     }
     
     @Published var cellphone: String {
         didSet {
             UserDefaults.standard.set(cellphone, forKey: "cellphone")
+            _ = UpdateMessage()
         }
     }
     
     @Published var cellphone2: String {
         didSet {
             UserDefaults.standard.set(cellphone2, forKey: "cellphone2")
+            _ = UpdateMessage()
+        }
+    }
+    
+    @Published var message: String {
+        didSet {
+            UserDefaults.standard.set(message, forKey: "message")
+        }
+    }
+    
+    @Published var messageRecipients: String {
+        didSet {
+            UserDefaults.standard.set(messageRecipients, forKey: "messageRecipients")
         }
     }
     
@@ -74,8 +91,89 @@ class UserSettings: ObservableObject {
         self.birth = UserDefaults.standard.object(forKey: "birth") as? Date ?? Date()
         self.cellphone = UserDefaults.standard.object(forKey: "cellphone") as? String ?? ""
         self.cellphone2 = UserDefaults.standard.object(forKey: "cellphone2") as? String ?? ""
+        self.message = UserDefaults.standard.object(forKey: "message") as? String ?? ""
+        self.messageRecipients = UserDefaults.standard.object(forKey: "messageRecipients") as? String ?? ""
+    }
+    
+    func UpdateMessage() -> String {
+        let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.locale = Locale(identifier: "ko_KR")
+            formatter.dateFormat = "yyyy년 MM월 dd일"
+            // formatter.setLocalizedDateFormatFromTemplate("YYYY/MM/dd")
+            return formatter
+        }()
+        
+        let body = "이름: \(self.name) \n성별: \(self.gender) \n생년월일 : \(dateFormatter.string(from: self.birth)) \n본인 전화번호: \(ConvertPhoneNumber(phoneNumber: self.cellphone)) \n보호자 전화번호: \(ConvertPhoneNumber(phoneNumber:self.cellphone2))"
+        
+        self.message = body
+        
+        return body
+    }
+    
+    
+    func ConvertPhoneNumber(phoneNumber: String) -> String {
+        var first: String = ""
+        var second: String = ""
+        var third: String = ""
+        
+        var firstIndex: String.Index
+        var secondIndex: String.Index
+        var thirdIndex: String.Index
+        
+        var firstOffset: Int
+        var secondOffset: Int
+        var thirdOffset: Int
+        
+        if(phoneNumber.count == 8) {
+            firstOffset = 4
+            firstIndex = phoneNumber.index(phoneNumber.startIndex, offsetBy: firstOffset)
+            secondIndex = phoneNumber.index(firstIndex, offsetBy: firstOffset)
+            
+            first = String(phoneNumber[..<firstIndex])
+            second = String(phoneNumber[firstIndex..<secondIndex])
+            
+            print("\(first)-\(second)")
+            return "\(first)-\(second)"
+            
+        } else if (phoneNumber.count > 8 && phoneNumber.count <= 11) {
+            
+            switch phoneNumber.count {
+            case 9:
+                firstOffset = 2
+                secondOffset = 3
+                thirdOffset = 4
+            case 10:
+                firstOffset = 3
+                secondOffset = 3
+                thirdOffset = 4
+            case 11:
+                firstOffset = 3
+                secondOffset = 4
+                thirdOffset = 4
+            default:
+                return phoneNumber
+            }
+            
+            firstIndex = phoneNumber.index(phoneNumber.startIndex, offsetBy: firstOffset)
+            secondIndex = phoneNumber.index(firstIndex, offsetBy: secondOffset)
+            thirdIndex = phoneNumber.index(secondIndex, offsetBy: thirdOffset)
+            
+            first = String(phoneNumber[..<firstIndex])
+            second = String(phoneNumber[firstIndex..<secondIndex])
+            third = String(phoneNumber[secondIndex..<thirdIndex])
+            
+            print("\(first)-\(second)-\(third)")
+            return "\(first)-\(second)-\(third)"
+            
+        } else {
+            return phoneNumber
+        }
         
     }
+    
+    
 }
 
 class WebViewModel: ObservableObject {
