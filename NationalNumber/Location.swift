@@ -37,22 +37,20 @@ struct Location: View {
                 VStack {
                     SearchBar(searchKey: $address, googleModel: googleModel, width: geometry.size.width, height: geometry.size.height/12).onTapGesture {
                         activeSheet = .place
-                    }
+                    }.padding(EdgeInsets(top: geometry.size.height/20, leading: 0, bottom: 0, trailing: 0))
                     HStack {
                         Spacer()
                         Button(action: {
                             print("변환 tapped")
                             showAlert = !(googleModel.completedSearch || googleModel.completedSetMarker)
                             if(!showAlert) {
-                                print("------------------- show alert is false..")
+                                print("------------------- show alert false search/marker: \(googleModel.completedSearch)/\(googleModel.completedSetMarker)")
                                 // halfModal_shown = true
                                 // activeSheet = .convert
                                 self.viewModel.foo.send(true)
                                 self.viewModel.foo2.send(placeLatLog(placeLatitude: googleModel.placeLatitude, placeLongitude: googleModel.placeLongitude))
-                                
-                                print("2222------------------- show alert is false..")
+                                print("------------------- lat,long: \(googleModel.placeLatitude), \(googleModel.placeLongitude)")
                             }
-                            
                         }) {
                             HStack {
                                 Image(systemName: "arrow.left.arrow.right")
@@ -160,7 +158,7 @@ struct Location: View {
                                 .cornerRadius(30)
                             })
                         }.padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
-                    }.padding(.all, 10)
+                    }// .padding(.all, 10)
                 }
                 
                 //.frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -25,13 +25,57 @@ enum ActiveSheet: Identifiable {
     }
 }
 
-class ViewRouter: ObservableObject {
-    @Published var currentPage: Page = .location
-}
-
 struct placeLatLog {
     var placeLatitude : Double
     var placeLongitude : Double
+}
+
+class ViewRouter: ObservableObject {
+    @Published var currentPage: Page = .setting
+}
+
+class UserSettings: ObservableObject {
+    
+    @Published var name: String {
+        didSet {
+            UserDefaults.standard.set(name, forKey: "name")
+        }
+    }
+    
+    var genders = ["기타", "남자", "여자"]
+    
+    @Published var gender: String {
+        didSet {
+            UserDefaults.standard.set(gender, forKey: "gender")
+        }
+    }
+    
+    @Published var birth: Date {
+        didSet {
+            UserDefaults.standard.set(birth, forKey: "birth")
+        }
+    }
+    
+    @Published var cellphone: String {
+        didSet {
+            UserDefaults.standard.set(cellphone, forKey: "cellphone")
+        }
+    }
+    
+    @Published var cellphone2: String {
+        didSet {
+            UserDefaults.standard.set(cellphone2, forKey: "cellphone2")
+        }
+    }
+    
+    init() {
+        self.name = UserDefaults.standard.object(forKey: "name") as? String ?? ""
+        self.gender = UserDefaults.standard.object(forKey: "gender") as? String ?? "기타"
+        self.birth = UserDefaults.standard.object(forKey: "birth") as? Date ?? Date()
+        self.cellphone = UserDefaults.standard.object(forKey: "cellphone") as? String ?? ""
+        self.cellphone2 = UserDefaults.standard.object(forKey: "cellphone2") as? String ?? ""
+        
+    }
 }
 
 class WebViewModel: ObservableObject {

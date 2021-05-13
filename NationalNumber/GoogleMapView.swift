@@ -188,9 +188,12 @@ struct GoogleMapView: UIViewRepresentable {
             print("[] long press")
             // 꾸욱 누르면
             mapView.clear()
+            print("[] long press2 \(coordinate)")
             self.parent.marker.position = coordinate
             // self.parent.marker.title = "Hello World"
             self.parent.marker.map = mapView // self.parent.mapView
+            
+            // 뭔가 이거 안 되는 것 같음
             let bounds = GMSCoordinateBounds(coordinate: mapView.projection.visibleRegion().nearLeft, coordinate: mapView.projection.visibleRegion().farRight)
             self.parent.googleModel.viewportSW = bounds.southWest
             self.parent.googleModel.viewportNE = bounds.northEast
@@ -198,7 +201,8 @@ struct GoogleMapView: UIViewRepresentable {
             self.parent.googleModel.placeLongitude = coordinate.longitude
             self.parent.googleModel.completedSetMarker = true
             self.parent.googleModel.placeName = ""
-            self.parent.googleModel.completedSearch = true
+            self.parent.googleModel.completedSearch = false
+            print("googleModel:: \(self.parent.googleModel)")
         }
         
     }

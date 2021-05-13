@@ -11,13 +11,16 @@ import UIKit
 struct ContentView: View {
     
     @StateObject var viewRouter: ViewRouter
-    @State var allowGPS = true
+    /*@State var allowGPS = true
     @State var name = ""
     @State var gender = 0
     @State var birth = Date()
-    @State var fixedDate = ""
+    
     @State var cellphone = ""
     @State var cellphone2 = ""
+    */
+    @ObservedObject var userSettings = UserSettings()
+    @State var halfModal_shown = false
     
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -28,7 +31,7 @@ struct ContentView: View {
         return formatter
     }()
     
-    let genderType = ["기타", "남성", "여성"]
+    
     
     var body: some View {
         GeometryReader { geometry in
@@ -39,56 +42,47 @@ struct ContentView: View {
                     case .location:
                         Location(view_height: geometry.size.height)
                     case .setting:
-                        NavigationView {
-                            Form {
-                                /*Section(header: Text("GPS"), footer: Text("GPS 권한을 설정합니다."), content: {
-                                    Toggle(isOn: $allowGPS) {
-                                        Text("GPS 허용")
-                                    }
-                                })*/
-                                Section(header: Text("기본정보"), footer: Text("구조요청 문자 시 전송되는 기본정보입니다."), content: {
-                                    Picker("이름", selection: $name) {
-                                        HStack {
-                                            TextField("이름을 입력해주세요", text: $name).keyboardType(.default)
-                                            Button(action: { self.name = ""}) {
-                                                Image(systemName: "multiply.circle.fill")
-                                                    .foregroundColor(.secondary)
+                        ZStack {
+                            NavigationView {
+                                Form {
+                                    Section(header: Text("기본정보"), footer: Text("구조요청 문자 시 전송되는 기본정보입니다."), content: {
+                                        TextField("이름", text: $userSettings.name)
+                                        Picker("성별", selection: $userSettings.gender) {
+                                            ForEach(userSettings.genders, id: \.self) { gender in
+                                                Text(gender)
                                             }
                                         }
-                                    }
-                                    Picker("성별", selection: $gender) {
-                                        ForEach(0 ..< genderType.count) {
-                                            Text("\(self.genderType[$0])")
+                                        Text("생년월일: \(userSettings.birth, formatter: Self.dateFormatter)").onTapGesture {
+                                            print("halfmodal shown true")
+                                            halfModal_shown = true
                                         }
-                                    }
-                                    Picker("생년월일", selection: $birth) {
-                                        DatePicker("", selection: $birth, in: ...Date(), displayedComponents: [.date]).datePickerStyle(WheelDatePickerStyle())
-                                            .environment(\.locale, Locale.init(identifier:"ko_KR"))
-                                    }
-                                    Picker("본인 전화번호", selection: $cellphone) {
-                                        HStack {
-                                            TextField("전화번호를 입력해주세요", text: $cellphone).keyboardType(.phonePad)
-                                            Button(action: { self.cellphone = ""}) {
-                                                Image(systemName: "multiply.circle.fill")
-                                                    .foregroundColor(.secondary)
+                                        TextField("본인 전화번호", text: $userSettings.cellphone).keyboardType(.phonePad)
+                                        TextField("보호자 전화번호", text: $userSettings.cellphone2).keyboardType(.phonePad)
+                                    })
+                                    Section(header: Text("전달내용"), content: {
+                                        Text("이름: \(userSettings.name.isEmpty ? "" : userSettings.name) \n성별: \(userSettings.gender) \n생년월일 : \(userSettings.birth, formatter: Self.dateFormatter) \n본인 전화번호: \(ConvertPhoneNumber(phoneNumber: userSettings.cellphone)) \n보호자 전화번호: \(ConvertPhoneNumber(phoneNumber:userSettings.cellphone2))")
+                                    })
+                                }.navigationTitle("설정")
+                            }.navigationViewStyle(StackNavigationViewStyle())
+                            HalfModalView(isShown: $halfModal_shown, modalHeight: 250){
+                                VStack {
+                                    HStack {
+                                        Spacer()
+                                        Text("Done")
+                                            .bold()
+                                            .onTapGesture {
+                                                halfModal_shown = false;
                                             }
-                                        }
+                                            .foregroundColor(.gray)
+                                            .background(Color.white)
+                                            .cornerRadius(30)
+                                            .padding(EdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 10))
                                     }
-                                    Picker("보호자 전화번호", selection: $cellphone2) {
-                                        HStack {
-                                            TextField("보호자 전화번호를 입력해주세요", text: $cellphone2).keyboardType(.phonePad)
-                                            Button(action: { self.cellphone2 = ""}) {
-                                                Image(systemName: "multiply.circle.fill")
-                                                    .foregroundColor(.secondary)
-                                            }
-                                        }
-                                    }
-                                })
-                                Section(header: Text("전달내용"), content: {
-                                    Text("이름: \(name.isEmpty ? "" : name) \n성별: \(genderType[gender]) \n생년월일 : \(birth, formatter: Self.dateFormatter) \n본인 전화번호: \(cellphone) \n보호자 전화번호: \(cellphone2)")
-                                })
-                            }.navigationTitle("설정")
-                        }.navigationViewStyle(StackNavigationViewStyle())
+                                    DatePicker("", selection: $userSettings.birth, in: ...Date(), displayedComponents: [.date]).datePickerStyle(WheelDatePickerStyle())
+                                        .environment(\.locale, Locale.init(identifier:"ko_KR"))
+                                }
+                            }
+                        }
                 }
                 HStack {
                     TabBarIcon(viewRouter: viewRouter, assignedPage: .firstaid, width: geometry.size.width/3, height: geometry.size.height/28, systemIconName: "bolt.heart", tabName: "응급처치")
@@ -98,10 +92,105 @@ struct ContentView: View {
                 .background(Color.white)
                 
             }
-            .edgesIgnoringSafeArea(.bottom)
+            .edgesIgnoringSafeArea(.all)
+            //.edgesIgnoringSafeArea(.bottom)
         }
         
     }
+}
+
+/*
+ //.applyPatternOnNumbers(pattern: "###-####-####", replacmentCharacter: "#")
+extension String {
+    func applyPatternOnNumbers(pattern: String, replacmentCharacter: Character) -> String {
+        var pureNumber = self.replacingOccurrences( of: "[^0-9]", with: "", options: .regularExpression)
+        for index in 0 ..< pattern.count {
+            guard index < pureNumber.count else { return pureNumber }
+            let stringIndex = String.Index(encodedOffset: index) //String.Index(utf16Offset:in:)
+            let patternCharacter = pattern[stringIndex]
+            guard patternCharacter != replacmentCharacter else { continue }
+            pureNumber.insert(patternCharacter, at: stringIndex)
+        }
+        return pureNumber
+    }
+}*/
+
+extension String{
+    func getArrayAfterRegex(regex: String) -> [String] {
+        
+        do {
+            let regex = try NSRegularExpression(pattern: regex)
+            let results = regex.matches(in: self,
+                                        range: NSRange(self.startIndex..., in: self))
+            return results.map {
+                String(self[Range($0.range, in: self)!])
+            }
+        } catch let error {
+            print("invalid regex: \(error.localizedDescription)")
+            return []
+        }
+    }
+}
+
+
+func ConvertPhoneNumber(phoneNumber: String) -> String {
+    var first: String = ""
+    var second: String = ""
+    var third: String = ""
+    
+    var firstIndex: String.Index
+    var secondIndex: String.Index
+    var thirdIndex: String.Index
+    
+    var firstOffset: Int
+    var secondOffset: Int
+    var thirdOffset: Int
+    
+    if(phoneNumber.count == 8) {
+        firstOffset = 4
+        firstIndex = phoneNumber.index(phoneNumber.startIndex, offsetBy: firstOffset)
+        secondIndex = phoneNumber.index(firstIndex, offsetBy: firstOffset)
+        
+        first = String(phoneNumber[..<firstIndex])
+        second = String(phoneNumber[firstIndex..<secondIndex])
+        
+        print("\(first)-\(second)")
+        return "\(first)-\(second)"
+        
+    } else if (phoneNumber.count > 8 && phoneNumber.count <= 11) {
+        
+        switch phoneNumber.count {
+        case 9:
+            firstOffset = 2
+            secondOffset = 3
+            thirdOffset = 4
+        case 10:
+            firstOffset = 3
+            secondOffset = 3
+            thirdOffset = 4
+        case 11:
+            firstOffset = 3
+            secondOffset = 4
+            thirdOffset = 4
+        default:
+            return phoneNumber
+        }
+        
+        firstIndex = phoneNumber.index(phoneNumber.startIndex, offsetBy: firstOffset)
+        secondIndex = phoneNumber.index(firstIndex, offsetBy: secondOffset)
+        thirdIndex = phoneNumber.index(secondIndex, offsetBy: thirdOffset)
+        
+        first = String(phoneNumber[..<firstIndex])
+        second = String(phoneNumber[firstIndex..<secondIndex])
+        third = String(phoneNumber[secondIndex..<thirdIndex])
+        
+        print("\(first)-\(second)-\(third)")
+        return "\(first)-\(second)-\(third)"
+        
+    } else {
+        return phoneNumber
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
