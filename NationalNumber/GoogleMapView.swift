@@ -15,7 +15,8 @@ struct GoogleMapView: UIViewRepresentable {
     }
     
     @Binding var view_height: CGFloat
-    @ObservedObject var googleModel: GoogleModel
+    // @ObservedObject var googleModel: GoogleModel
+    @State var googleModel: GoogleModel
     
     /*
     @Binding var placeLatitude: CLLocationDegrees
@@ -34,7 +35,7 @@ struct GoogleMapView: UIViewRepresentable {
     let marker : GMSMarker = GMSMarker()
     // var marker : GMSMarker?
 
-    init(view_height: Binding<CGFloat>, googleModel: ObservedObject<GoogleModel>
+    init(view_height: Binding<CGFloat>, googleModel: State<GoogleModel>
          /*, placeLatitude: Binding<CLLocationDegrees>, placeLongitude: Binding<CLLocationDegrees>, viewportSW: Binding<CLLocationCoordinate2D>, viewportNE: Binding<CLLocationCoordinate2D>*/) {
     // init(view_height: CGFloat) {
         //let mapView
@@ -79,12 +80,13 @@ struct GoogleMapView: UIViewRepresentable {
             self.marker.position = CLLocationCoordinate2D(latitude: googleModel.placeLatitude, longitude: googleModel.placeLongitude)
             self.marker.title = self.googleModel.placeName
             self.marker.map = uiView
+            googleModel.completedSetMarker = true
             print("-----if googleModel.completed search is true -----")
             print("--------------- current marker title is \(self.googleModel.placeName)")
         }
         else if (googleModel.completedDidLongPress) {
             print("-----else if googleModel.completedsearch == false && didLongPress == true -----")
-            
+            // 원래 updateUIView 가 long press 이후에도 시뮬에서는 동작해서 그렇게 했다가, 실제에서는 동작안해서..
         } else {
                 print("-----else  googleModel.completed search is false and didlongpress is false -----")
         }
@@ -208,9 +210,11 @@ struct GoogleMapView: UIViewRepresentable {
         func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
             // 꾸욱 누르면
             mapView.clear()
-            self.parent.marker.position = coordinate
+            let longMarker = GMSMarker(position: coordinate)
+            longMarker.map = mapView
+            // self.parent.marker.position = coordinate
             // self.parent.marker.title = "Hello World"
-            self.parent.marker.map = mapView // self.parent.mapView
+            // self.parent.marker.map = mapView // self.parent.mapView
             
             // 뭔가 이거 안 되는 것 같음
             let bounds = GMSCoordinateBounds(coordinate: mapView.projection.visibleRegion().nearLeft, coordinate: mapView.projection.visibleRegion().farRight)
@@ -219,6 +223,7 @@ struct GoogleMapView: UIViewRepresentable {
             self.parent.googleModel.placeLatitude = coordinate.latitude
             self.parent.googleModel.placeLongitude = coordinate.longitude
             self.parent.googleModel.completedSetMarker = true
+            self.parent.googleModel.completedDidLongPress = true
             self.parent.googleModel.placeName = ""
             self.parent.googleModel.completedSearch = false
             
@@ -255,7 +260,8 @@ struct GooglePlacesView: UIViewControllerRepresentable {
     
     @Binding var address: String
     @Binding var showButtonbar: Bool
-    @ObservedObject var googleModel: GoogleModel
+    // @ObservedObject var googleModel: GoogleModel
+    @State var googleModel: GoogleModel
     /*
     @Binding var placeLatitude: CLLocationDegrees
     @Binding var placeLongitude: CLLocationDegrees
@@ -313,7 +319,6 @@ struct GooglePlacesView: UIViewControllerRepresentable {
             
             // fill the text
             self.parent.address = place.name ?? ""
-            
             
             self.parent.googleModel.placeLatitude = place.coordinate.latitude
             self.parent.googleModel.placeLongitude = place.coordinate.longitude

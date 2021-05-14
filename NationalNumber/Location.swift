@@ -16,7 +16,8 @@ struct Location: View {
     @ObservedObject var viewModel = WebViewModel()
     @State var address = "enter the place."
     @State var showButtonbar = false
-    @ObservedObject var googleModel = GoogleModel()
+    // @ObservedObject var googleModel = GoogleModel()
+    @State var googleModel = GoogleModel()
     
     @State var showAlert = false
     
