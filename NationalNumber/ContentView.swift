@@ -94,7 +94,7 @@ struct ContentView: View {
                     TabBarIcon(viewRouter: viewRouter, assignedPage: .location, width: geometry.size.width/3, height: geometry.size.height/28, systemIconName: "figure.walk", tabName: "위치")
                     TabBarIcon(viewRouter: viewRouter, assignedPage: .setting, width: geometry.size.width/3, height: geometry.size.height/28, systemIconName: "gearshape", tabName: "설정")
                 }.frame(width: geometry.size.width, height: geometry.size.height/8)
-                .background(Color.white)
+                .background(Color(UIColor.systemBackground))
                 
             }
             .edgesIgnoringSafeArea(.all)

@@ -75,8 +75,7 @@ struct Location: View {
                                   message: Text("상단의 검색바로 검색하거나 지도를 길게 눌러 마커를 표시하면 위치를 지정할 수 있습니다."),
                                   dismissButton: .default(Text("OK")))
                         }
-                        
-                    }.padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: 15))
+                    }.padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: (UIDevice.current.orientation.isLandscape ? 60 : 15)))
                     .shadow(color: Color.black.opacity(0.3), radius: 4.0, x: 0.0, y: 3.0)
                     /*
                     HStack {
