@@ -14,7 +14,8 @@ import WebKit
 struct WebView: UIViewRepresentable {
     
     var url: String
-    @ObservedObject var viewModel: WebViewModel
+    // @ObservedObject var viewModel: WebViewModel
+    @State var viewModel: WebViewModel
     
     // @ObservedObject var googleModel: GoogleModel
     
@@ -24,6 +25,7 @@ struct WebView: UIViewRepresentable {
     }
     
     func makeUIView(context: Context) -> WKWebView {
+        print("[WebView] makeUIView")
         // UIViewRepresentable 필수
         let preferences = WKPreferences()
         preferences.javaScriptCanOpenWindowsAutomatically = false
@@ -54,6 +56,7 @@ struct WebView: UIViewRepresentable {
     
     func updateUIView(_ uiView: WKWebView, context: Context) {
         // UIViewRepresentable 필수
+        print("[WebView] updateUIView")
     }
     
     class Coordinator: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
@@ -82,6 +85,9 @@ struct WebView: UIViewRepresentable {
         
         init(_ uiWebView: WebView) {
             self.parent = uiWebView
+            print("[WebView] init")
+            
+            
         }
         
         deinit {
@@ -89,6 +95,7 @@ struct WebView: UIViewRepresentable {
             foo2?.cancel()
             // longitude?.cancel()
             // latitude?.cancel()
+            print("[WebView] deinit")
         }
         
         func webView(_ webView: WKWebView,
@@ -116,6 +123,30 @@ struct WebView: UIViewRepresentable {
             })
             */
             
+            print("[WebView] decidePolicyFor")
+            
+            
+            
+            
+            
+            return decisionHandler(.allow)
+                     
+         }
+        
+        func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+            print("기본 프레임에서 탐색 시작")
+            self.indicator.center = webView.center
+            self.indicator.startAnimating()
+        }
+        
+        func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+            print("내용 수신 시작")
+        }
+        
+        func webView(_ webView: WKWebView, didFinish: WKNavigation!) {
+            print("탐색 완료")
+            self.indicator.stopAnimating()
+            
             self.foo = self.parent.viewModel.foo.receive(on: RunLoop.main).sink(receiveValue: { value in
                         print("--------------------- foo.receive  : \(value)")
             })
@@ -134,28 +165,6 @@ struct WebView: UIViewRepresentable {
                     }
                 }
             })
-            
-            
-            
-            return decisionHandler(.allow)
-                     
-         }
-        
-        func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-            print("기본 프레임에서 탐색 시작")
-            
-            self.indicator.center = webView.center
-            self.indicator.startAnimating()
-        }
-        
-        func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-            print("내용 수신 시작")
-        }
-        
-        func webView(_ webview: WKWebView, didFinish: WKNavigation!) {
-            print("탐색 완료")
-            self.indicator.stopAnimating()
-            
             
             /*
             if(parent.googleModel.completedSearch) {
@@ -193,6 +202,12 @@ struct WebView: UIViewRepresentable {
             print("탐색 중 오류 발생")
             self.indicator.stopAnimating()
         }
+        
+        func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+            print("웹 컨텐츠가 종료될 때 호출")
+        }
+        
+        
         
     }
 }

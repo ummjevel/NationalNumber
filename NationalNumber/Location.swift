@@ -13,7 +13,8 @@ import MessageUI
 struct Location: View {
     
     @State var view_height: CGFloat
-    @ObservedObject var viewModel = WebViewModel()
+    // @ObservedObject var viewModel = WebViewModel()
+    @State var viewModel = WebViewModel()
     @State var address = "enter the place."
     @State var showButtonbar = false
     // @ObservedObject var googleModel = GoogleModel()
@@ -25,6 +26,7 @@ struct Location: View {
     @State var halfModal_shown = false
     @State var shareModal_shown = false
     
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         GeometryReader { geometry in
@@ -157,7 +159,8 @@ struct Location: View {
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 30)
                                     .stroke(Color.blue, lineWidth: 1)
-                                )
+                                    
+                                ).clipShape(RoundedRectangle(cornerRadius: 30))
                             }
                             Button(action: {
                                 actionSheet(activityItems: ["\(googleModel.nationalNumber)"])
@@ -172,7 +175,7 @@ struct Location: View {
                                 .cornerRadius(30)
                             })
                         }.padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
-                    }// .padding(.all, 10)
+                    }//.background(Color(UIColor.systemBackground)) // .background(colorScheme == .dark ? Color.black : Color.white)
                 }
                 
                 //.frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -248,6 +251,9 @@ class MessageComposeDelegate: NSObject, MFMessageComposeViewControllerDelegate {
             default:
                 print("unknown")
         }
-       controller.dismiss(animated: true)
+        
+       // UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true, completion: nil)
+       //controller.dismiss(animated: true) // 안됨..
+        controller.navigationController?.popViewController(animated: true)
     }
 }

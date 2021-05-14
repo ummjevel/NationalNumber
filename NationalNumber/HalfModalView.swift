@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HalfModalView<Content: View>: View {
+    
+    @Environment(\.colorScheme) var colorScheme
     @GestureState private var dragState = DragState.inactive
     @Binding var isShown:Bool
     
@@ -56,11 +58,11 @@ struct HalfModalView<Content: View>: View {
                             .padding()
                             .frame(width: UIScreen.main.bounds.size.width, height:modalHeight)
                             .clipped()
+                            .background(Color(UIColor.systemBackground))
                     }
                     .offset(y: isShown ? ((self.dragState.isDragging && dragState.translation.height >= 1) ? dragState.translation.height : 0) : modalHeight)
                     .animation(.interpolatingSpring(stiffness: 300.0, damping: 100.0, initialVelocity: 0.5))
                     .gesture(drag)
-                    
                     
                 }
             }.edgesIgnoringSafeArea(.all)
