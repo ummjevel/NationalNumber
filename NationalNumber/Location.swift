@@ -39,7 +39,7 @@ struct Location: View {
                         Spacer()
                         Button(action: {
                             print("변환 tapped")
-                            showAlert = !(googleModel.completedSearch || googleModel.completedSetMarker)
+                            showAlert = !googleModel.completedSetMarker
                             if(!showAlert) {
                                 print("------------------- show alert false search/marker: \(googleModel.completedSearch)/\(googleModel.completedSetMarker)")
                                 // halfModal_shown = true
@@ -48,6 +48,17 @@ struct Location: View {
                                 self.viewModel.foo2.send(placeLatLog(placeLatitude: googleModel.placeLatitude, placeLongitude: googleModel.placeLongitude))
                                 print("------------------- lat,long: \(googleModel.placeLatitude), \(googleModel.placeLongitude)")
                             }
+                            print("---------------------------------------------- ")
+                            print("placeLatitude: \(googleModel.placeLatitude)")
+                            print("placeLongitude: \(googleModel.placeLongitude)")
+                            print("completedSearch: \(googleModel.completedSearch)")
+                            print("completedSetMarker: \(googleModel.completedSetMarker)")
+                            print("completedDidLongPress: \(googleModel.completedDidLongPress)")
+                            print("placeName: \(googleModel.placeName)")
+                            print("nationalNumber: \(googleModel.nationalNumber)")
+                            print("viewportSW: \(googleModel.viewportSW)")
+                            print("viewportNE: \(googleModel.viewportNE)")
+                            print("---------------------------------------------- ")
                         }) {
                             HStack {
                                 Image(systemName: "arrow.left.arrow.right")
@@ -223,7 +234,19 @@ struct Location: View {
 
 class MessageComposeDelegate: NSObject, MFMessageComposeViewControllerDelegate {
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-       // Customize here
+        print("didFinishWith: \(result)")
+        switch result {
+            case MessageComposeResult.sent:
+                print("sent")
+                break
+            case MessageComposeResult.cancelled:
+                print("cancelled")
+                break
+            case MessageComposeResult.failed:
+                print("failed")
+            default:
+                print("unknown")
+        }
        controller.dismiss(animated: true)
     }
 }

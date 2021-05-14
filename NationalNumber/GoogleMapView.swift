@@ -29,7 +29,7 @@ struct GoogleMapView: UIViewRepresentable {
     private static let defaultCamera = GMSCameraPosition.camera(withLatitude: 38.1206, longitude: 128.4654, zoom: 10.0)
     // (withLatitude: -33.86, longitude: 151.20, zoom: 6.0) // 38.12067304510615, 128.46542415288081
     // (withLatitude: 37.5484, longitude: 127.0534, zoom: 10.0)
-    private let mapView : GMSMapView
+    private let mapView : GMSMapView = GMSMapView.map(withFrame: CGRect.zero, camera: GoogleMapView.defaultCamera)
     // private weak var mapDelegate: GMSMapViewDelegateWrapper?
     let marker : GMSMarker = GMSMarker()
     // var marker : GMSMarker?
@@ -37,7 +37,7 @@ struct GoogleMapView: UIViewRepresentable {
     init(view_height: Binding<CGFloat>, googleModel: ObservedObject<GoogleModel>
          /*, placeLatitude: Binding<CLLocationDegrees>, placeLongitude: Binding<CLLocationDegrees>, viewportSW: Binding<CLLocationCoordinate2D>, viewportNE: Binding<CLLocationCoordinate2D>*/) {
     // init(view_height: CGFloat) {
-        let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: GoogleMapView.defaultCamera)
+        //let mapView
         mapView.isMyLocationEnabled = true
         mapView.settings.compassButton = true
         mapView.settings.myLocationButton = true
@@ -54,21 +54,24 @@ struct GoogleMapView: UIViewRepresentable {
         self._viewportNE = viewportNE
         */
         // mapView.padding = UIEdgeInsets(top: 0, left: 0, bottom: self._view_height.wrappedValue/10 , right: 0)
-        self.mapView = mapView
+        //self.mapView = mapView
         /*let mapDelegateWrapper = GMSMapViewDelegateWrapper()
         self.mapDelegate = mapDelegateWrapper
         self.mapView.delegate = mapDelegateWrapper*/
+        print("---------- [GoogleMapView] init() -----------")
    }
     
     func makeUIView(context: Context) -> GMSMapView {
         
         self.mapView.delegate = context.coordinator
+        print("---------- [GoogleMapView] makeUIView() -----------")
         
         return mapView
     }
     
     func updateUIView(_ uiView: GMSMapView, context: Context) {
         
+        print("---------- [GoogleMapView] updateUIView() -----------")
         // 검색으로 이동한 경우
         if (googleModel.completedSearch) {
             uiView.moveCamera(GMSCameraUpdate.fit(GMSCoordinateBounds(coordinate: googleModel.viewportNE, coordinate: googleModel.viewportSW), withPadding: 50.0))
@@ -76,8 +79,16 @@ struct GoogleMapView: UIViewRepresentable {
             self.marker.position = CLLocationCoordinate2D(latitude: googleModel.placeLatitude, longitude: googleModel.placeLongitude)
             self.marker.title = self.googleModel.placeName
             self.marker.map = uiView
+            print("-----if googleModel.completed search is true -----")
             print("--------------- current marker title is \(self.googleModel.placeName)")
         }
+        else if (googleModel.completedDidLongPress) {
+            print("-----else if googleModel.completedsearch == false && didLongPress == true -----")
+            
+        } else {
+                print("-----else  googleModel.completed search is false and didlongpress is false -----")
+        }
+        print("-------- completedSetMarker: \(googleModel.completedSetMarker)")
         // long press로 marker 를 찍은 경우 외 : else..
         /*
         if ((googleModel.placeLatitude == 0.0) && (googleModel.placeLongitude == 0.0)) {
@@ -107,11 +118,19 @@ struct GoogleMapView: UIViewRepresentable {
         
         // print("marker.position: \(marker.position)")
         // print("marker.title: \(String(describing: marker.title))")
-        print("current googleModel.placeName: \(googleModel.placeName)")
-        print("current googleModel.placeLatitude: \(googleModel.placeLatitude)")
-        print("current googleModel.placeLongitude: \(googleModel.placeLongitude)")
-        print("current latitude1: \(uiView.camera.target.latitude)")
-        print("current longitude1: \(uiView.camera.target.longitude)")
+        print("---------------------------------------------- ")
+        print("placeLatitude: \(googleModel.placeLatitude)")
+        print("placeLongitude: \(googleModel.placeLongitude)")
+        print("completedSearch: \(googleModel.completedSearch)")
+        print("completedSetMarker: \(googleModel.completedSetMarker)")
+        print("completedDidLongPress: \(googleModel.completedDidLongPress)")
+        print("placeName: \(googleModel.placeName)")
+        print("nationalNumber: \(googleModel.nationalNumber)")
+        print("viewportSW: \(googleModel.viewportSW)")
+        print("viewportNE: \(googleModel.viewportNE)")
+        print("---------------------------------------------- ")
+        print("uiView.camera.target.latitude : \(uiView.camera.target.latitude)")
+        print("uiView.camera.target.longitude: \(uiView.camera.target.longitude)")
         
         //marker.position = CLLocationCoordinate2D(latitude: googleModel.placeLatitude, longitude: googleModel.placeLongitude)
         //marker.title = "hello"
@@ -153,6 +172,8 @@ struct GoogleMapView: UIViewRepresentable {
         
         init(_ parent: GoogleMapView) {
             self.parent = parent
+            print("---------- [GoogleMapView] Coordinator init() -----------")
+            
         }
         
         var shouldHandleTap: Bool = true
@@ -185,10 +206,8 @@ struct GoogleMapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
-            print("[] long press")
             // 꾸욱 누르면
             mapView.clear()
-            print("[] long press2 \(coordinate)")
             self.parent.marker.position = coordinate
             // self.parent.marker.title = "Hello World"
             self.parent.marker.map = mapView // self.parent.mapView
@@ -202,7 +221,22 @@ struct GoogleMapView: UIViewRepresentable {
             self.parent.googleModel.completedSetMarker = true
             self.parent.googleModel.placeName = ""
             self.parent.googleModel.completedSearch = false
-            print("googleModel:: \(self.parent.googleModel)")
+            
+            print("---------- [GoogleMapView] Coordinator didLongPressAt -----------")
+            // 꾸욱 누르면
+            print("[] long press \(coordinate)")
+            print("long press mapView \(self.parent.mapView)")
+            print("---------------------------------------------- ")
+            print("placeLatitude: \(self.parent.googleModel.placeLatitude)")
+            print("placeLongitude: \(self.parent.googleModel.placeLongitude)")
+            print("completedSearch: \(self.parent.googleModel.completedSearch)")
+            print("completedSetMarker: \(self.parent.googleModel.completedSetMarker)")
+            print("completedDidLongPress: \(self.parent.googleModel.completedDidLongPress)")
+            print("placeName: \(self.parent.googleModel.placeName)")
+            print("nationalNumber: \(self.parent.googleModel.nationalNumber)")
+            print("viewportSW: \(self.parent.googleModel.viewportSW)")
+            print("viewportNE: \(self.parent.googleModel.viewportNE)")
+            print("---------------------------------------------- ")
         }
         
     }
@@ -239,16 +273,30 @@ struct GooglePlacesView: UIViewControllerRepresentable {
     typealias UIViewControllerType = GMSAutocompleteViewController
     
     func makeUIViewController(context: Context) -> GMSAutocompleteViewController {
-        print("GooglePlacesView: makeUIViewController")
+        
+        print("---------- [GooglePlacesView] makeUIViewController -----------")
         self.placeController.delegate = context.coordinator
         
         // self.placeController.present(placeController, animated: true, completion: nil)
-        
+        if #available(iOS 13.0, *) {
+            if UIScreen.main.traitCollection.userInterfaceStyle == UIUserInterfaceStyle.dark {
+            placeController.primaryTextColor = UIColor.white
+            placeController.secondaryTextColor = UIColor.lightGray
+            placeController.tableCellSeparatorColor = UIColor.lightGray
+            placeController.tableCellBackgroundColor = UIColor.darkGray
+           } else {
+            placeController.primaryTextColor = UIColor.black
+            placeController.secondaryTextColor = UIColor.lightGray
+            placeController.tableCellSeparatorColor = UIColor.lightGray
+            placeController.tableCellBackgroundColor = UIColor.white
+           }
+        }
         return placeController
     }
     
     func updateUIViewController(_ uiViewController: GMSAutocompleteViewController, context: Context) {
         
+        print("---------- [GooglePlacesView] updateUIViewController -----------")
     }
     
     class Coordinator : NSObject, GMSAutocompleteViewControllerDelegate {
@@ -257,10 +305,11 @@ struct GooglePlacesView: UIViewControllerRepresentable {
         
         init(_ parent: GooglePlacesView) {
             self.parent = parent
+            print("---------- [GooglePlacesView] init -----------")
+            print("parent: \(parent)")
         }
         
         func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-            print("[viewController] place: \(place)")
             
             // fill the text
             self.parent.address = place.name ?? ""
@@ -272,7 +321,7 @@ struct GooglePlacesView: UIViewControllerRepresentable {
             self.parent.googleModel.viewportNE = place.viewport?.northEast ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
             self.parent.googleModel.placeName = place.name ?? ""
             self.parent.googleModel.completedSearch = true
-            
+            self.parent.googleModel.completedDidLongPress = false
             /*
             self.parent.googleModel.placeLatitude.send(place.coordinate.latitude)
             self.parent.googleModel.placeLongitude.send(place.coordinate.longitude)
@@ -280,7 +329,12 @@ struct GooglePlacesView: UIViewControllerRepresentable {
             self.parent.googleModel.viewportNE.send(place.viewport?.northEast ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0))
              */
             
-            self.parent.showButtonbar = true
+            print("---------- [GooglePlacesView] viewController(didAutocompleteWith) -----------")
+            print("place name : \(place.name ?? "")")
+            print("place latitude : \(place.coordinate.latitude)")
+            print("place longitude : \(place.coordinate.longitude)")
+            print("place SW : \(place.viewport?.southWest ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0))")
+            print("place NE : \(place.viewport?.northEast ?? CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0))")
             
             // weak var pvc = viewController.presentingViewController
             
@@ -292,6 +346,17 @@ struct GooglePlacesView: UIViewControllerRepresentable {
                 vc.modalTransitionStyle = .coverVertical
                 pvc?.present(vc, animated: true, completion: nil)
                 */
+                print("------ GooglePlacesView dismiss ------------- ")
+                print("placeLatitude: \(self.parent.googleModel.placeLatitude)")
+                print("placeLongitude: \(self.parent.googleModel.placeLongitude)")
+                print("completedSearch: \(self.parent.googleModel.completedSearch)")
+                print("completedSetMarker: \(self.parent.googleModel.completedSetMarker)")
+                print("completedDidLongPress: \(self.parent.googleModel.completedDidLongPress)")
+                print("placeName: \(self.parent.googleModel.placeName)")
+                print("nationalNumber: \(self.parent.googleModel.nationalNumber)")
+                print("viewportSW: \(self.parent.googleModel.viewportSW)")
+                print("viewportNE: \(self.parent.googleModel.viewportNE)")
+                print("---------------------------------------------- ")
             })
             
             // FunctionControllerView.init(isShown: self.parent.$isShown)
@@ -302,12 +367,13 @@ struct GooglePlacesView: UIViewControllerRepresentable {
         }
         
         func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-            
-            print("[viewController] error: \(error)")
+            print("---------- [GooglePlacesView] viewController(didFailAutocompleteWithError) -----------")
+            print("error: \(error)")
         }
         
         func wasCancelled(_ viewController: GMSAutocompleteViewController) {
             
+                print("---------- [GooglePlacesView] wasCancelled -----------")
             viewController.dismiss(animated: true, completion: nil)
             
         }

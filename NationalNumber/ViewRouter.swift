@@ -187,6 +187,7 @@ class WebViewModel: ObservableObject {
 class GoogleModel: ObservableObject {
     @Published var completedSearch = false
     @Published var completedSetMarker = false
+    @Published var completedDidLongPress = false
     @Published var placeLatitude = 0.0
     @Published var placeLongitude = 0.0
     @Published var viewportSW = CLLocationCoordinate2D()
