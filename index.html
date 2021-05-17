@@ -29,7 +29,7 @@
 			
 			// converter latitude, longitude to National Number
 			function Wgs842NN(latitude, longitude) {
-				// 위도 경도 범위 확인, 실패 시 범위 벗어났다고 표시
+				// 위도 경도 범위 확인, 실패 시 범위 벗어났다고 표시 : 0 으로 반환할 경우 앱에서 처리..
 				
 				// convert wgs84(lat, log) -> utm-k -> National Number
 				var utmkXY = new sop.LatLng(latitude, longitude);
@@ -41,9 +41,11 @@
 						var rest_nor = (utmkXY.y + "").slice((key_nor + "").length).slice(0, 4);
 						
 						return nn_est[key_est] + nn_nor[key_nor] + " " + rest_est + " " + rest_nor;
+					} else {
+						return "0";
 					}
 				} else {
-					return "변환에 실패하였습니다.";
+					return "0";
 				}
 				
 			}
