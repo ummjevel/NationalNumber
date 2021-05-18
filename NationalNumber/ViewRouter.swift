@@ -18,7 +18,7 @@ enum Page {
 }
 
 enum ActiveSheet: Identifiable {
-    case place//, message //, share, convert
+    case place, message //, share, convert
     
     var id: Int {
         hashValue
@@ -92,7 +92,7 @@ class UserSettings: ObservableObject {
         self.cellphone = UserDefaults.standard.object(forKey: "cellphone") as? String ?? ""
         self.cellphone2 = UserDefaults.standard.object(forKey: "cellphone2") as? String ?? ""
         self.message = UserDefaults.standard.object(forKey: "message") as? String ?? ""
-        self.messageRecipients = UserDefaults.standard.object(forKey: "messageRecipients") as? String ?? ""
+        self.messageRecipients = UserDefaults.standard.object(forKey: "messageRecipients") as? String ?? "119"
     }
     
     func UpdateMessage() -> String {
@@ -215,6 +215,6 @@ struct OnboardingData: Hashable, Identifiable {
         OnboardingData(id: 0, backgroundImage: "map",  objectImage: "figure.walk", primaryText: "위치를 지정하세요.", secondaryText: "지도 위를 길게 누르거나\n상단의 검색바를 터치하여\n장소를 검색하면 마커를 표시해\n위치를 지정할 수 있습니다.", backOffsetX: 30, backOffsetY: 0, rectOffsetX1: 150, rectOffsetX2: -70, maskOffsetX: 0, maskOffsetY: 50, rotateY: 0),
         OnboardingData(id: 1,  backgroundImage: "message", objectImage: "arrow.left.arrow.right", primaryText: "변환하여 공유하세요.", secondaryText: "마커 표시 후 우측상단의 변환 버튼을 누르면\n국가지점번호로 변환할 수 있습니다.\n결과를 공유하거나 구조문자로 전송할 수 있습니다.", backOffsetX: 30, backOffsetY: 0, rectOffsetX1: 70, rectOffsetX2: -10, maskOffsetX: 0, maskOffsetY: -10, rotateY: 0),
         OnboardingData(id: 2,  backgroundImage: "scroll", objectImage: "pencil.tip", primaryText: "기본 인적사항을 입력해주세요.", secondaryText: "변환 후 구조문자에 전송할 정보입니다.\n구조 시 필요한 기본적인 인적사항입니다.", backOffsetX: 30, backOffsetY: 0, rectOffsetX1: 70, rectOffsetX2: -10, maskOffsetX: 0, maskOffsetY: 40, rotateY: 0),
-        OnboardingData(id: 3,  backgroundImage: "person.3", objectImage: "bolt.heart", primaryText: "응급처치를 확인해보세요.", secondaryText: "간단하지만 침착하게 대처할 수 있습니다.\n필요한 순간에 사용하세요.", backOffsetX: 0, backOffsetY: 0, rectOffsetX1: 0, rectOffsetX2: 0, maskOffsetX: 0, maskOffsetY: 0, rotateY: 0)
+        OnboardingData(id: 3,  backgroundImage: "person.3", objectImage: "bolt.heart", primaryText: "응급처치를 확인해보세요.", secondaryText: "간단하지만 침착하게 대처할 수 있습니다.\n필요한 순간에 사용하세요.", backOffsetX: 30, backOffsetY: 0, rectOffsetX1: 0, rectOffsetX2: 150, maskOffsetX: 0, maskOffsetY: 0, rotateY: 0)
     ]
 }

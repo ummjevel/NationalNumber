@@ -65,7 +65,7 @@ struct ContentView: View {
                                         // "이름: \(userSettings.name) \n성별: \(userSettings.gender) \n생년월일 : \(userSettings.birth, formatter: Self.dateFormatter) \n본인 전화번호: \(ConvertPhoneNumber(phoneNumber: userSettings.cellphone)) \n보호자 전화번호: \(ConvertPhoneNumber(phoneNumber:userSettings.cellphone2))"
                                     })
                                     Section(header: Text("신고번호"), footer: Text("구조요청 문자 전송 시 수신하는 전화번호입니다. 예) 119"), content: {
-                                        TextField("신고번호", text: $userSettings.messageRecipients).keyboardType(.phonePad)
+                                        TextField("신고번호", text: $userSettings.messageRecipients).keyboardType(.numbersAndPunctuation)
                                     })
                                 }.navigationTitle("설정")
                             }.navigationViewStyle(StackNavigationViewStyle())

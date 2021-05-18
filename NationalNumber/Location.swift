@@ -23,9 +23,11 @@ struct Location: View {
     
     @State var showAlert = false
     @State var showAlertNotCoverted = false
+    @State var showAlertCannotSendMsg = false
     
     @State var activeSheet: ActiveSheet?
     @State var halfModal_shown = false
+    @State var halfModal_shownHeight : CGFloat = 200
     @State var shareModal_shown = false
     
     var body: some View {
@@ -77,6 +79,10 @@ struct Location: View {
                                 Alert(title: Text("국가지점번호 변환 실패"),
                                       message: Text("국가지점번호 위치 변환이 불가능한 지역입니다. 범위 내의 위치를 지정해주세요."),
                                       dismissButton: .default(Text("OK")))
+                            }.alert(isPresented: $showAlertCannotSendMsg) {
+                                Alert(title: Text("구조문자 전송 실패"),
+                                      message: Text("문자 전송이 실패하였습니다."),
+                                      dismissButton: .default(Text("OK")))
                             }
                         }.padding(EdgeInsets(top: 0, leading: 0, bottom: 5, trailing: (UIDevice.current.orientation.isLandscape ? 60 : 15)))
                         .shadow(color: Color.black.opacity(0.3), radius: 4.0, x: 0.0, y: 3.0)
@@ -120,6 +126,7 @@ struct Location: View {
                             showAlertNotCoverted = true
                         } else {
                             googleModel.nationalNumber = value
+                            halfModal_shownHeight = 200
                             halfModal_shown = true
                         }
                         //activeSheet = .convert
@@ -133,15 +140,19 @@ struct Location: View {
                                                  showButtonbar: $showButtonbar,
                                                  googleModel: googleModel)
                                 
-                           //case .message:
-                                //MessageView()
+                           case .message:
+                            // MessageView(message: getMessageText(), messageRecipients: [UserDefaults.standard.string(forKey: "messageRecipients") ?? "119"])
+                            
+                            MessageView(completion: { messageSent in
+                                print("!!!!!!!! message sent: \(messageSent)")
+                            }, message: getMessageText(), messageRecipients: [UserDefaults.standard.string(forKey: "messageRecipients") ?? "119"])
                                 //ShareSheet(activityItems: ["Hello World"])
                            /* case .convert:
                                 CustomActionSheet()
                          */
                         }
                     }
-                    HalfModalView(isShown: $halfModal_shown, modalHeight: 200){
+                    HalfModalView(isShown: $halfModal_shown, modalHeight: halfModal_shownHeight){
                        
                         VStack {
                             Text("국가지점번호 : \(googleModel.nationalNumber)").padding(EdgeInsets(top: 20, leading: 5, bottom: 5, trailing: 5)).multilineTextAlignment(.leading)
@@ -152,7 +163,13 @@ struct Location: View {
                                     print("문자전송 터치")
                                     //activeSheet = .message
                                     print("전송 번호: \(UserDefaults.standard.string(forKey: "messageRecipients") ?? "")")
-                                    
+                                    halfModal_shown = false
+                                    /*if MFMessageComposeViewController.canSendText() {
+                                        activeSheet = .message
+                                    } else {
+                                        showAlertCannotSendMsg = true
+                                    }
+                                    */
                                     presentMessageCompose(message: getMessageText(), messageRecipients: UserDefaults.standard.string(forKey: "messageRecipients") ?? "")
                                 }) {
                                     HStack {
@@ -212,7 +229,7 @@ struct Location: View {
     
     func presentMessageCompose(message:String, messageRecipients: String) {
 
-        let messageComposeDelegate = MessageComposeDelegate()
+        // let messageComposeDelegate = MessageComposeDelegate()
 
         guard MFMessageComposeViewController.canSendText() else {
             print("---------- cannot send text...")
@@ -227,11 +244,23 @@ struct Location: View {
         }
         // let vc = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.rootViewController
 
-        let composeVC = MFMessageComposeViewController()
+        /*let composeVC = MFMessageComposeViewController()
         composeVC.messageComposeDelegate = messageComposeDelegate
         composeVC.recipients = [messageRecipients]
         composeVC.body = message
-        UIApplication.shared.windows.first?.rootViewController?.present(composeVC, animated: true, completion: nil)
+        */
+        // UIApplication.shared.windows.first?.rootViewController?.present(composeVC, animated: true, completion: nil)
+        
+        let sms: String = "sms:\(messageRecipients)&body=\(message)"
+        print("!!!!!!!! sms : \(sms)")
+        let strURL: String = sms.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        UIApplication.shared.open(URL.init(string: strURL)!, options: [:], completionHandler: nil)
+        /*
+        let vc = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.rootViewController
+        vc?.present(composeVC, animated: true, completion:  {
+            print("vc?.present comletion...")
+            // composeVC.dismiss(animated: true, completion: nil)
+        })*/
     }
     
     func getMessageText() -> String {
@@ -257,8 +286,8 @@ class MessageComposeDelegate: NSObject, MFMessageComposeViewControllerDelegate {
             default:
                 print("unknown")
         }
-        
-       UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true, completion: nil)
+        controller.dismiss(animated: true)
+       // UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true, completion: nil)
        //controller.dismiss(animated: true) // 안됨..
         // controller.navigationController?.popViewController(animated: true) // 안됨
     }
