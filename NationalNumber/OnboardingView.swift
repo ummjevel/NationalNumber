@@ -13,6 +13,7 @@ struct OnboardingView: View {
     @State private var isAnimating: Bool = false
     @State var animateImage = false
     @Environment(\.colorScheme) var colorScheme
+    @Binding var initShown : Bool
     
     var body: some View {
         VStack(spacing: 0) {
@@ -72,6 +73,9 @@ struct OnboardingView: View {
             Button(action: {
                 // Add action for button
                 UserDefaults.standard.setValue(true, forKey: "KeyOnBoardingViewShown")
+                initShown = true
+                print("button selected..... initShown: \(initShown), keyonboardingviewshown: \(UserDefaults.standard.bool(forKey: "KeyOnBoardingViewShown"))")
+                
             }, label: {
                 Text("Get Started")
                     .font(.headline)
@@ -98,9 +102,10 @@ struct OnboardingView: View {
     }
 }
 
-
+/*
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingView(data: OnboardingData.list.first!)
+        OnboardingView(data: OnboardingData.list.first!, initShown: <#T##Binding<Bool>#>)
     }
 }
+*/

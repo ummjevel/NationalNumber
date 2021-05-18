@@ -25,10 +25,20 @@ struct NationalNumberApp: App {
     
     @StateObject var viewRouter = ViewRouter()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+    // @State var initShown = UserDefaults.standard.bool(forKey: "KeyOnBoardingViewShown")
 
     var body: some Scene {
         WindowGroup {
-            ContentView(viewRouter: viewRouter)
+            ParentOnboardingView(viewRouter: viewRouter)
+            /*
+            if initShown == false {
+                ParentOnboardingView(initShown: initShown)
+            }
+            else {
+                ContentView(viewRouter: viewRouter)
+            }
+            */
         }
     }
 }
