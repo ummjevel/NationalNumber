@@ -46,10 +46,18 @@ class UserSettings: ObservableObject {
     
     var genders = ["기타", "남자", "여자"]
     
+    var languages = ["한국어", "영어"]
+    
     @Published var gender: String {
         didSet {
             UserDefaults.standard.set(gender, forKey: "gender")
             _ = UpdateMessage()
+        }
+    }
+    
+    @Published var language: String {
+        didSet {
+            UserDefaults.standard.set(language, forKey: "language")
         }
     }
     
@@ -89,6 +97,7 @@ class UserSettings: ObservableObject {
     init() {
         self.name = UserDefaults.standard.object(forKey: "name") as? String ?? ""
         self.gender = UserDefaults.standard.object(forKey: "gender") as? String ?? "기타"
+        self.language = UserDefaults.standard.object(forKey: "language") as? String ?? "한국어"
         self.birth = UserDefaults.standard.object(forKey: "birth") as? Date ?? Date()
         self.cellphone = UserDefaults.standard.object(forKey: "cellphone") as? String ?? ""
         self.cellphone2 = UserDefaults.standard.object(forKey: "cellphone2") as? String ?? ""

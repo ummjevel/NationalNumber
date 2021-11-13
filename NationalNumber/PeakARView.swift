@@ -56,7 +56,10 @@ class PeakARViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
     
     var sceneLocationView = SceneLocationView()
     var configuration = ARWorldTrackingConfiguration()
-    let languageSetting = LanguageSetting.ko
+    
+    
+    var userSettings = UserSettings()
+    var languageSetting = LanguageSetting.en
     
     var authState1 : Int = 0
     var authState2 : Int = 0
@@ -97,6 +100,8 @@ class PeakARViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
         // Run the view's session
         // sceneView.session.run(configuration)
         sceneLocationView.run()
+        
+        languageSetting = self.userSettings.language == LanguageSetting.en.rawValue ? LanguageSetting.en : LanguageSetting.ko
     }
     
     override func viewWillDisappear(_ animated: Bool) {

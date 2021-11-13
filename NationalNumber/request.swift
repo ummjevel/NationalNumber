@@ -15,9 +15,9 @@ public struct Response : Decodable {
     
 }
 
-enum LanguageSetting {
-    case en
-    case ko
+enum LanguageSetting: String {
+    case en = "영어"
+    case ko = "한국어"
 }
 
 enum ResponseResult: String, Decodable {
