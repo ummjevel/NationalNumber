@@ -33,6 +33,8 @@ struct ContentView: View {
                         FirstAid()
                     case .location:
                         Location(view_height: geometry.size.height)
+                    case .peakar:
+                        PeakARView()
                     case .setting:
                         ZStack {
                             NavigationView {
@@ -69,6 +71,7 @@ struct ContentView: View {
                                     })
                                 }.navigationTitle("설정")
                             }.navigationViewStyle(StackNavigationViewStyle())
+                            
                             HalfModalView(isShown: $halfModal_shown, modalHeight: 250){
                                 VStack {
                                     HStack {
@@ -87,17 +90,19 @@ struct ContentView: View {
                                         .environment(\.locale, Locale.init(identifier:"ko_KR"))
                                 }
                             }
+                            
                         }
                 }
                 HStack {
-                    TabBarIcon(viewRouter: viewRouter, assignedPage: .firstaid, width: geometry.size.width/3, height: geometry.size.height/28, systemIconName: "bolt.heart", tabName: "응급처치")
-                    TabBarIcon(viewRouter: viewRouter, assignedPage: .location, width: geometry.size.width/3, height: geometry.size.height/28, systemIconName: "figure.walk", tabName: "위치")
-                    TabBarIcon(viewRouter: viewRouter, assignedPage: .setting, width: geometry.size.width/3, height: geometry.size.height/28, systemIconName: "gearshape", tabName: "설정")
+                    TabBarIcon(viewRouter: viewRouter, assignedPage: .firstaid, width: geometry.size.width/4, height: geometry.size.height/28, systemIconName: "bolt.heart", tabName: "응급처치")
+                    TabBarIcon(viewRouter: viewRouter, assignedPage: .location, width: geometry.size.width/4, height: geometry.size.height/28, systemIconName: "figure.walk", tabName: "위치")
+                    TabBarIcon(viewRouter: viewRouter, assignedPage: .setting, width: geometry.size.width/4, height: geometry.size.height/28, systemIconName: "gearshape", tabName: "설정")
+                    TabBarIcon(viewRouter: viewRouter, assignedPage: .peakar, width: geometry.size.width/4, height: geometry.size.height/28, systemIconName: "figure.walk", tabName: "산봉우리")
                 }.frame(width: geometry.size.width, height: geometry.size.height/8)
                 .background(Color(UIColor.systemBackground))
                 
             }
-            .edgesIgnoringSafeArea((UIDevice.current.orientation.isLandscape && viewRouter.currentPage == .setting) ? .top : .all)
+            .edgesIgnoringSafeArea(((UIDevice.current.orientation.isLandscape && viewRouter.currentPage == .setting)) ? .top : .all)
             //.edgesIgnoringSafeArea(.bottom)
             
         }

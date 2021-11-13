@@ -15,6 +15,7 @@ enum Page {
     case firstaid
     case location
     case setting
+    case peakar
 }
 
 enum ActiveSheet: Identifiable {
@@ -31,7 +32,7 @@ struct placeLatLog {
 }
 
 class ViewRouter: ObservableObject {
-    @Published var currentPage: Page = .location
+    @Published var currentPage: Page = .peakar
 }
 
 class UserSettings: ObservableObject {
