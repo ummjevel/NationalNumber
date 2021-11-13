@@ -29,7 +29,7 @@
                                 <color key="highlightedColor" systemColor="systemRedColor"/>
                                 <color key="shadowColor" systemColor="systemFillColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow.right.arrow.left" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Zk6-00-cSf">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow.left.arrow.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Zk6-00-cSf">
                                 <rect key="frame" x="157" y="397" width="100" height="102"/>
                                 <color key="tintColor" systemColor="systemRedColor"/>
                                 <constraints>
@@ -57,7 +57,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrow.right.arrow.left" catalog="system" width="119" height="128"/>
+        <image name="arrow.left.arrow.right" catalog="system" width="119" height="128"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
