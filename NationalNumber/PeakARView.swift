@@ -82,7 +82,7 @@ class PeakARViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
         // self.locationManager2.requestAlwaysAuthorization()
         self.locationManager2.startUpdatingLocation()
         
-        setUpButtons()
+        // setUpButtons()
     }
     
     override func viewDidLayoutSubviews() {
@@ -100,7 +100,6 @@ class PeakARViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
         // Run the view's session
         // sceneView.session.run(configuration)
         sceneLocationView.run()
-        
         languageSetting = self.userSettings.language == LanguageSetting.en.rawValue ? LanguageSetting.en : LanguageSetting.ko
     }
     
@@ -114,13 +113,26 @@ class PeakARViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         if manager.authorizationStatus.rawValue > 2 {
+            
+            setUpButtons()
             sendCurrentLatLong()
         }
     }
     
     private func setUpButtons() {
-        let refreshButton = UIButton(frame: CGRect(x: self.sceneView.frame.width - 120, y: 60, width: 100, height: 30))
-        refreshButton.setTitle("Refresh", for: .normal)
+        let refreshButton = UIButton(frame: CGRect(x: self.sceneLocationView.frame.width * 0.8, y: 60, width: self.sceneLocationView.frame.width/7, height: self.sceneLocationView.frame.width/7))
+        let refreshImage = UIImage(systemName: "arrow.clockwise.circle.fill")
+        refreshButton.contentVerticalAlignment = .fill
+        refreshButton.contentHorizontalAlignment = .fill
+        // refreshImage?.withTintColor(UIColor.gray)
+        // refreshButton.backgroundColor = UIColor.white
+        refreshButton.tintColor = UIColor.white
+        refreshButton.setImage(refreshImage, for: .normal)
+        
+            //.foregroundColor(.gray)
+            //.background(Color.white)
+            //.cornerRadius(50)
+        // refreshButton.setTitle("Refresh", for: .normal)
         refreshButton.addTarget(self, action: #selector(sendRequest), for: .touchUpInside)
         sceneLocationView.addSubview(refreshButton)
         
@@ -183,9 +195,12 @@ class PeakARViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
                             let placeLocation = CLLocation(latitude: child.lat, longitude: child.lon)
                             
                             let placeAnnotationNode = PeakMarker(location: placeLocation, title: child.name_en!)
+                            let placeAnnotationNode2 = PeakMarker(location: placeLocation, title: child.name_ko!, type: 1)
                             
                             DispatchQueue.main.async {
-                                self.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: placeAnnotationNode)
+                                // self.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: placeAnnotationNode)
+                                
+                                self.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: placeAnnotationNode2)
                             }
                         }
                     } else if self.languageSetting == LanguageSetting.ko {
@@ -194,9 +209,12 @@ class PeakARViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
                             // ar text 표시
                             let placeLocation = CLLocation(latitude: child.lat, longitude: child.lon)
                             let placeAnnotationNode = PeakMarker(location: placeLocation, title: child.name_ko!)
+                            let placeAnnotationNode2 = PeakMarker(location: placeLocation, title: child.name_ko!, type: 1)
                             
                             DispatchQueue.main.async {
-                                self.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: placeAnnotationNode)
+                                // self.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: placeAnnotationNode)
+                                
+                                self.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: placeAnnotationNode2)
                             }
                         }
                     }
