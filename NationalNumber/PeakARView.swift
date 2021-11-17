@@ -167,6 +167,7 @@ class PeakARViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
         request("http://3.145.25.38:9000/api/osm/\(currentLat)/\(currentLon)", "GET") { (success, data) in
             // print(data)
             if success {
+                
                 let mirror = Mirror(reflecting: data)
                 var resultValue : String = ""
                 var bodyValue : [Osm] = []
@@ -187,18 +188,31 @@ class PeakARViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
                 
                 if responseResult2.result == "OK" {
                     self.sceneLocationView.removeAllNodes()
+                    var fixHeight: Float = 4.0
+                    var fixArg: Float = 3.0
+                    // fixHeight = 4.0
                     
                     if self.languageSetting == LanguageSetting.en {
                         // en
                         for child in responseResult2.body {
+                            
+                            if fixHeight == 54 {
+                                fixArg = -10.0
+                            } else if fixHeight == 4 {
+                                fixArg = 10.0
+                            }
+                            fixHeight = fixHeight + fixArg
+                            
                             // ar text 표시
                             let placeLocation = CLLocation(latitude: child.lat, longitude: child.lon)
                             
-                            let placeAnnotationNode = PeakMarker(location: placeLocation, title: child.name_en!)
-                            let placeAnnotationNode2 = PeakMarker(location: placeLocation, title: child.name_ko!, type: 1)
+                            // let placeAnnotationNode = PeakMarker(location: placeLocation, title: child.name_en!)
+                            let placeAnnotationNode2 = PeakMarker(location: placeLocation, title: child.name_ko!, fixHeight: fixHeight)
                             
                             DispatchQueue.main.async {
                                 // self.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: placeAnnotationNode)
+                                
+                                // print(placeAnnotationNode2)
                                 
                                 self.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: placeAnnotationNode2)
                             }
@@ -206,10 +220,18 @@ class PeakARViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
                     } else if self.languageSetting == LanguageSetting.ko {
                         // en
                         for child in responseResult2.body {
+                            
+                            if fixHeight == 11 {
+                                fixArg = -1
+                            } else if fixHeight == 4 {
+                                fixArg = 1
+                            }
+                            fixHeight = fixHeight + fixArg
+                            
                             // ar text 표시
                             let placeLocation = CLLocation(latitude: child.lat, longitude: child.lon)
-                            let placeAnnotationNode = PeakMarker(location: placeLocation, title: child.name_ko!)
-                            let placeAnnotationNode2 = PeakMarker(location: placeLocation, title: child.name_ko!, type: 1)
+                            // let placeAnnotationNode = PeakMarker(location: placeLocation, title: child.name_ko!)
+                            let placeAnnotationNode2 = PeakMarker(location: placeLocation, title: child.name_ko!, fixHeight: fixHeight)
                             
                             DispatchQueue.main.async {
                                 // self.sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: placeAnnotationNode)

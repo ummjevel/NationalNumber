@@ -28,12 +28,12 @@ class PeakMarker : LocationNode {
         initializeUI()
     }
     
-    init(location: CLLocation?, title: String, type: Int) {
+    init(location: CLLocation?, title: String, fixHeight: Float) {
         self.markerNode = SCNNode()
         self.title = title
         self.markerType = MarkerType.marker
         super.init(location: location)
-        initializeUI2()
+        initializeUI2(fixHeight: fixHeight)
     }
     
     init(location: CLLocation?, title: String, markerType: MarkerType) {
@@ -73,7 +73,7 @@ class PeakMarker : LocationNode {
         node.pivot = SCNMatrix4MakeTranslation(dx, dy, dz)
     }
     
-    private func initializeUI2() {
+    private func initializeUI2(fixHeight: Float) {
         
         let text = SCNText(string: self.title, extrusionDepth: 0)
         text.containerFrame = CGRect(x: 0, y: 0, width: 10, height: 3)
@@ -94,8 +94,11 @@ class PeakMarker : LocationNode {
                              
         center(node: textNode)
         
+        // random height..
+        // let randomNo: Float = Float(arc4random_uniform(10));
+        
         let planeNode = SCNNode(geometry: plane)
-        planeNode.position = SCNVector3(0, 7, 0)
+        planeNode.position = SCNVector3(0, fixHeight, 0)
         // planeNode.localRotate(by: SCNVector4(0.0, 0.3, 0.3, ConvertDegreesToRadians(angle: 45.0)))
         planeNode.addChildNode(textNode)
         
